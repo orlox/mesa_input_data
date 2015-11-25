@@ -215,10 +215,29 @@
          write(*,*) 'LMC X,Y,Z,sum', X_LMC, Y_LMC, Z_LMC, X_LMC+Y_LMC+Z_LMC
          write(*,*) 'SMC X,Y,Z,sum', X_SMC, Y_SMC, Z_SMC, X_SMC+Y_SMC+Z_SMC
          write(*,*) 'GAL X,Y,Z,sum', X_GAL, Y_GAL, Z_GAL, X_GAL+Y_GAL+Z_GAL
+
+         ! update individual metal abundances, recompute Z from here so sum of all adds to 1
+         Z_LMC = 0
+         Z_SMC = 0
+         Z_GAL = 0
+         do i = e_li, e_u
+            LMC_INES(i) = X_LMC*LMC_INES(i)
+            Z_LMC = Z_LMC + LMC_INES(i)
+            SMC_INES(i) = X_SMC*SMC_INES(i)
+            Z_SMC = Z_SMC + SMC_INES(i)
+            GAL_INES(i) = X_GAL*GAL_INES(i)
+            Z_GAL = Z_GAL + GAL_INES(i)
+         end do
+
          ! just to be sure compute Y so abundances add up to 1 within MP
          Y_LMC = 1.0 - X_LMC - Z_LMC
          Y_SMC = 1.0 - X_SMC - Z_SMC
          Y_GAL = 1.0 - X_GAL - Z_GAL
+
+         write(*,*) 'final LMC X,Y,Z,sum', X_LMC, Y_LMC, Z_LMC, X_LMC+Y_LMC+Z_LMC
+         write(*,*) 'final SMC X,Y,Z,sum', X_SMC, Y_SMC, Z_SMC, X_SMC+Y_SMC+Z_SMC
+         write(*,*) 'final GAL X,Y,Z,sum', X_GAL, Y_GAL, Z_GAL, X_GAL+Y_GAL+Z_GAL
+
          !add up elements that go into fillup
          Zfill_LMC = 0
          Zfill_SMC = 0
@@ -258,23 +277,23 @@
             do j = 1, num_elements
                if (i==elements(j)) then
                   write(iounit_LMC,*) chem_element_main_iso_name(i), LMC_INES(i)
-                  write(iounit_LMC,*) "!by number", chem_element_main_iso_name(i), LMC_INES(i) / element_atomic_weight(i)
+                  write(iounit_LMC,*) "!abund.=",12.0+log10(LMC_INES(i)/X_LMC*element_atomic_weight(e_h)/element_atomic_weight(i))
                   write(iounit_SMC,*) chem_element_main_iso_name(i), SMC_INES(i)
+                  write(iounit_SMC,*) "!abund.=",12.0+log10(SMC_INES(i)/X_SMC*element_atomic_weight(e_h)/element_atomic_weight(i))
                   write(iounit_GAL,*) chem_element_main_iso_name(i), GAL_INES(i)
+                  write(iounit_GAL,*) "!abund.=",12.0+log10(GAL_INES(i)/X_GAL*element_atomic_weight(e_h)/element_atomic_weight(i))
                   cycle element_loop2
                end if
             end do
             if (i == fillup_element) then
                write(iounit_LMC,*) "!this element is fillup, original value is", LMC_INES(i)
                write(iounit_LMC,*) chem_element_main_iso_name(i), Zfill_LMC
-               write(iounit_LMC,*) "!by number", chem_element_main_iso_name(i), LMC_INES(i) / element_atomic_weight(i)
                write(iounit_SMC,*) "!this element is fillup, original value is", SMC_INES(i)
                write(iounit_SMC,*) chem_element_main_iso_name(i), Zfill_SMC
                write(iounit_GAL,*) "!this element is fillup, original value is", GAL_INES(i)
                write(iounit_GAL,*) chem_element_main_iso_name(i), Zfill_GAL
             else
                write(iounit_LMC,*) "!", chem_element_main_iso_name(i), LMC_INES(i) 
-               write(iounit_LMC,*) "!by number", chem_element_main_iso_name(i), LMC_INES(i) / element_atomic_weight(i)
                write(iounit_SMC,*) "!", chem_element_main_iso_name(i), SMC_INES(i)
                write(iounit_GAL,*) "!", chem_element_main_iso_name(i), GAL_INES(i)
             end if
@@ -284,43 +303,6 @@
          close(iounit_GAL)
          
       end subroutine do_get_composition
-      
-      !subroutine do_test_lodders
-		!		integer :: ierr, i
-		!		real(dp) :: percent
-
-		!		write (*,*)
-		!		write (*,'(a,/,72("="))') 'output of solar abundances: compare with Lodders (2003) table'
-		!		write (*,'(a7,tr3,a11)') 'isotope','% abundance'
-		!		do i = 1, size(namsol)
-		!			percent = lodders03_element_atom_percent(namsol(i))
-		!			write (*,'(a7,tr3,f11.6)') namsol(i), percent
-		!		end do
-
-		!	end subroutine do_test_lodders
-		!	
-      !subroutine write_chem_ids_file
-      !   integer, parameter :: iounit = 33
-		!	integer :: ierr
-		!	ierr = 0
-      !   open(unit=iounit, file=trim('chem_ids.list'), action='write', status='replace', iostat=ierr)
-      !   if (ierr /= 0) then
-      !      write(*,*) 'failed to open file for write_chem_ids'
-      !      stop 1
-      !   end if
-      !   call write_chem_ids(iounit)
-      !   close(iounit)
-      !end subroutine write_chem_ids_file
-      !
-
-      !subroutine write_chem_ids(iounit)
-      !   integer, intent(in) :: iounit
-		!	integer :: i
-      !   do i = 1, num_chem_isos
-      !      write(iounit,'(5x,i5,3x,a5)') i, chem_isos% name(i)
-      !   end do
-      !   write(iounit,*)
-      !end subroutine write_chem_ids
       
       end module mod_test_chem
       
