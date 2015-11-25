@@ -1,0 +1,14 @@
+&kappa
+
+         data_dir = 'kap_input_data/opal'		
+         logT_file = 'logT_points_highT_8.7'
+         logR_min = -8.00d0
+         logR_max = 1.00d0
+         logR_points = 37
+         type1_table = 'BROTT_SMC'
+         output_dir = 'data/kap_data'
+         table_prefix = 'BROTT_SMC'
+         header_info = 'fixed metal distribution -- based on Brott et al. 2011 for the SMC'
+         table_version = 37
+
+/
