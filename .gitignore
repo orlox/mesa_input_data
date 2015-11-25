@@ -1,1 +1,3 @@
 tester
+*.mod
+*.o

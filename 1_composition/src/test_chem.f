@@ -267,6 +267,25 @@
             write(*,*) 'failed to open file xa_GAL.data to write'
             stop 1
          end if
+         write(iounit_LMC,*) "!File contains abundances per mass of each element"
+         write(iounit_LMC,*) "!commented out are the abundances in 12+[X/H] format"
+         write(iounit_LMC,*) "!and also abundances per number, which can be inputted"
+         write(iounit_LMC,*) "!in the opal website to produce custom tables."
+         write(iounit_LMC,*) "!As not all elements are included in the network,"
+         write(iounit_LMC,*) "!we add up all non-included abundances in a single inert one."
+         write(iounit_SMC,*) "!File contains abundances per mass of each element"
+         write(iounit_SMC,*) "!commented out are the abundances in 12+[X/H] format"
+         write(iounit_SMC,*) "!and also abundances per number, which can be inputted"
+         write(iounit_SMC,*) "!in the opal website to produce custom tables."
+         write(iounit_SMC,*) "!As not all elements are included in the network,"
+         write(iounit_SMC,*) "!we add up all non-included abundances in a single inert one."
+         write(iounit_GAL,*) "!File contains abundances per mass of each element"
+         write(iounit_GAL,*) "!commented out are the abundances in 12+[X/H] format"
+         write(iounit_GAL,*) "!and also abundances per number, which can be inputted"
+         write(iounit_GAL,*) "!in the opal website to produce custom tables."
+         write(iounit_GAL,*) "!As not all elements are included in the network,"
+         write(iounit_GAL,*) "!we add up all non-included abundances in a single inert one."
+
          write(iounit_LMC,*) chem_element_main_iso_name(e_h), X_LMC
          write(iounit_SMC,*) chem_element_main_iso_name(e_h), X_SMC
          write(iounit_GAL,*) chem_element_main_iso_name(e_h), X_GAL
@@ -277,25 +296,40 @@
             do j = 1, num_elements
                if (i==elements(j)) then
                   write(iounit_LMC,*) chem_element_main_iso_name(i), LMC_INES(i)
-                  write(iounit_LMC,*) "!abund.=",12.0+log10(LMC_INES(i)/X_LMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+                  write(iounit_LMC,*) "!abund=",12.0+log10(LMC_INES(i)/X_LMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+                  write(iounit_LMC,*) "!by number=", chem_element_main_iso_name(i), LMC_INES(i) / element_atomic_weight(i)
                   write(iounit_SMC,*) chem_element_main_iso_name(i), SMC_INES(i)
-                  write(iounit_SMC,*) "!abund.=",12.0+log10(SMC_INES(i)/X_SMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+                  write(iounit_SMC,*) "!abund=",12.0+log10(SMC_INES(i)/X_SMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+                  write(iounit_SMC,*) "!by number=", chem_element_main_iso_name(i), SMC_INES(i) / element_atomic_weight(i)
                   write(iounit_GAL,*) chem_element_main_iso_name(i), GAL_INES(i)
-                  write(iounit_GAL,*) "!abund.=",12.0+log10(GAL_INES(i)/X_GAL*element_atomic_weight(e_h)/element_atomic_weight(i))
+                  write(iounit_GAL,*) "!abund=",12.0+log10(GAL_INES(i)/X_GAL*element_atomic_weight(e_h)/element_atomic_weight(i))
+                  write(iounit_GAL,*) "!by number=", chem_element_main_iso_name(i), GAL_INES(i) / element_atomic_weight(i)
                   cycle element_loop2
                end if
             end do
             if (i == fillup_element) then
-               write(iounit_LMC,*) "!this element is fillup, original value is", LMC_INES(i)
                write(iounit_LMC,*) chem_element_main_iso_name(i), Zfill_LMC
-               write(iounit_SMC,*) "!this element is fillup, original value is", SMC_INES(i)
+               write(iounit_LMC,*) "!this element is fillup, original value is", LMC_INES(i)
+               write(iounit_LMC,*) "!abund=",12.0+log10(LMC_INES(i)/X_LMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+               write(iounit_LMC,*) "!by number=", chem_element_main_iso_name(i), LMC_INES(i) / element_atomic_weight(i)
                write(iounit_SMC,*) chem_element_main_iso_name(i), Zfill_SMC
-               write(iounit_GAL,*) "!this element is fillup, original value is", GAL_INES(i)
+               write(iounit_SMC,*) "!this element is fillup, original value is", SMC_INES(i)
+               write(iounit_SMC,*) "!abund=",12.0+log10(SMC_INES(i)/X_SMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+               write(iounit_SMC,*) "!by number=", chem_element_main_iso_name(i), SMC_INES(i) / element_atomic_weight(i)
                write(iounit_GAL,*) chem_element_main_iso_name(i), Zfill_GAL
+               write(iounit_GAL,*) "!this element is fillup, original value is", GAL_INES(i)
+               write(iounit_GAL,*) "!abund=",12.0+log10(GAL_INES(i)/X_GAL*element_atomic_weight(e_h)/element_atomic_weight(i))
+               write(iounit_GAL,*) "!by number=", chem_element_main_iso_name(i), GAL_INES(i) / element_atomic_weight(i)
             else
                write(iounit_LMC,*) "!", chem_element_main_iso_name(i), LMC_INES(i) 
+               write(iounit_LMC,*) "!abund=",12.0+log10(LMC_INES(i)/X_LMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+               write(iounit_LMC,*) "!by number=", chem_element_main_iso_name(i), LMC_INES(i) / element_atomic_weight(i)
                write(iounit_SMC,*) "!", chem_element_main_iso_name(i), SMC_INES(i)
+               write(iounit_SMC,*) "!abund=",12.0+log10(SMC_INES(i)/X_SMC*element_atomic_weight(e_h)/element_atomic_weight(i))
+               write(iounit_SMC,*) "!by number=", chem_element_main_iso_name(i), SMC_INES(i) / element_atomic_weight(i)
                write(iounit_GAL,*) "!", chem_element_main_iso_name(i), GAL_INES(i)
+               write(iounit_GAL,*) "!abund=",12.0+log10(GAL_INES(i)/X_GAL*element_atomic_weight(e_h)/element_atomic_weight(i))
+               write(iounit_GAL,*) "!by number=", chem_element_main_iso_name(i), GAL_INES(i) / element_atomic_weight(i)
             end if
          end do element_loop2
          close(iounit_LMC)
