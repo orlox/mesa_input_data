@@ -77,6 +77,11 @@ do_one inlist_gs98_aFe_p8
 
 do_one inlist_BROTT_LMC
 do_one_CO inlist_BROTT_LMC_CO
+do_one inlist_BROTT_SMC
+do_one_CO inlist_BROTT_SMC_CO
+do_one inlist_BROTT_GAL
+do_one_CO inlist_BROTT_GAL_CO
+
 do_one inlist_lowT_fa05_gs98
 
 
