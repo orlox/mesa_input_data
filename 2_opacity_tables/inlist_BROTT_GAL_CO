@@ -1,5 +1,5 @@
 &kappa
-         data_dir = 'kap_input_data/opal/Type2_BROTT_GAL_CO'		
+         data_dir = 'kap_input_data/opal/Type2_BROTT_GAL'		
          logT_file = 'logT_points_highT_8.7'
          CO_flag = .true.
          logR_min = -8.00d0
