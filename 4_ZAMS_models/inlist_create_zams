@@ -1,0 +1,47 @@
+
+&star_job
+
+    file_for_uniform_xa = '../1_composition/xa_LMC.data'
+    !file_for_uniform_xa = '../1_composition/xa_SMC.data'
+    !file_for_uniform_xa = '../1_composition/xa_GAL.data'
+    set_uniform_initial_xa_from_file = .true.
+
+    h_he_net = 'basic2.net'
+    co_net = 'co_burn2.net'
+
+    kappa_file_prefix = "BROTT_LMC"
+    kappa_CO_prefix = "BROTT_LMC_co"
+    !kappa_file_prefix = "BROTT_SMC"
+    !kappa_CO_prefix = "BROTT_SMC_co"
+    !kappa_file_prefix = "BROTT_GAL"
+    !kappa_CO_prefix = "BROTT_GAL_co"
+      
+/ ! end of star_job namelist
+
+&controls
+
+    initial_z = 4.8410022998829991d-3 ! LMC
+    !initial_z = 2.1791140256616011d-3 ! SMC
+    !initial_z = 9.2091635112669119d-3 ! GAL
+
+    history_interval = 20
+    terminal_cnt = 5
+
+    varcontrol_target = 2d-4
+
+    use_ledoux_criterion = .true.
+    alpha_semiconvection = 1.0
+    thermohaline_coeff = 1.0
+
+    use_Type2_opacities = .true.
+    Zbase = 4.8410022998829991d-3 ! LMC
+    !Zbase = 2.1791140256616011d-3 ! SMC
+    !Zbase = 9.2091635112669119d-3 ! GAL
+
+  ! we use step overshooting
+    step_overshoot_f_above_burn_h_core = 0.345
+    overshoot_f0_above_burn_h_core = 0.01
+    step_overshoot_D0_coeff = 1.0
+
+/ ! end of controls namelist
+

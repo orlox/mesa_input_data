@@ -1,7 +1,10 @@
 tester
+*.swp
 *.mod
 *.o
+.svn
 star_create_zams
+*mod.data
 photos
 LOGS
 log

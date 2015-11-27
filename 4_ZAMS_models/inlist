@@ -1,0 +1,15 @@
+
+&star_job
+
+      read_extra_star_job_inlist1 = .true.
+      extra_star_job_inlist1_name = 'inlist_create_zams'
+
+/ ! end of star_job namelist
+
+&controls
+
+      read_extra_controls_inlist1 = .true.
+      extra_controls_inlist1_name = 'inlist_create_zams'
+
+/ ! end of controls namelist
+
