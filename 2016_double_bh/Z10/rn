@@ -1,0 +1,9 @@
+rm -f .restart
+
+date "+DATE: %Y-%m-%d%nTIME: %H:%M:%S"
+if [[ -e binary.exe ]];then
+	./binary.exe
+else
+	./binary
+fi
+date "+DATE: %Y-%m-%d%nTIME: %H:%M:%S"

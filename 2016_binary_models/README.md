@@ -20,7 +20,7 @@ on changing the nuclear network, you need only extract the input files
 xa_GAL.data, xa_LMC.data, and xa_SMC.data.
 - [2_opacity_tables](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#2_opacity_tables): Custom opacity tables produced from the Opal website.
 - [3_nets](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#3_nets): Slightly modified basic and co_burn nuclear networks.
-- [4_ZAMS_models](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#4_ZAMS_models): Produces sets of ZAMS models for each composition.
+- [4_ZAMS_models](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#4_zams_models): Produces sets of ZAMS models for each composition.
 - [5_single](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#5_single): Template work directory to model single stars.
 - [6_binary](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#6_binary): Template work directory to model binary stars.
 
@@ -150,13 +150,12 @@ and now all neccesary data should be included into MESA. Note that we rewrite th
 in case you have other custom opacities included into MESA, or have troubles getting this to work
 in newer MESA versions, you might want to manually include the neccesary entries into rebuild_all.
 
-And now to run a single star model, simply cd into 5_single, adjust inlist_project to specify
-whether the model is GAL, LMC or SMC, and the initial mass and rotation velocity, compile and run
+And now to run a single star model, simply cd into 5_single, adjust inlist_project to set
+the initial mass, rotation velocity and to specify
+whether the model is GAL, LMC or SMC. Then compile and run
 ```
 ./clean && ./mk
 ./rn
-```
-
 ```
 
 ## 6_binary

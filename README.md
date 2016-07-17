@@ -1,8 +1,12 @@
 # MESA input data
-Files to reproduce my MESA models. Be aware that for simplicity I include as well input data for 
+Files to reproduce my MESA models. Be aware that to simplify my existance I include as well input data for 
 incomplete projects. **Please do not use those without contacting me.**
+
+Throughout this README, it is assumed that the user already has MESA properly installed,
+if not, follow in detail the instructions given in the [MESA website](http://mesa.sourceforge.net/prereqs.html).
+
 - [2016_double_bh](2016_double_bh): Input data to reproduce models from the paper "A new route 
-towards merging massive black holes", Marchant et al. (2016), A&A 588, A50 (2016)
+towards merging massive black holes", Marchant et al. (2016) (A&A 588, A50)
 - [2016_ULX](2016_ULX): Input data for ULX models from case M evolution, **WIP, please contact 
 me if you intend to use these.**
 - [2016_binary_models](2016_binary_models): Input data to crease single and binary models with the 

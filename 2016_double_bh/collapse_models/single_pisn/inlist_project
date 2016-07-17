@@ -1,0 +1,123 @@
+
+! inlist_test_rlo
+
+
+
+&star_job
+
+    show_log_description_at_start = .false.
+
+    !change_rotation_flag = .true.
+    !new_rotation_flag = .false.
+
+    !save_model_when_terminate = .true.
+    !save_model_filename = 'model1.mod'
+
+    load_saved_model = .true.
+    saved_model_name = "model1.mod"
+
+    change_net = .true.
+    new_net_name = 'approx21.net'
+
+    pgstar_flag = .true.
+    pause_before_terminate = .true.
+
+    change_v_flag = .true.
+    new_v_flag = .true.
+
+
+/ ! end of star_job namelist
+
+
+
+&controls
+    which_atm_option = 'fixed_Psurf'
+    atm_fixed_Psurf = 1d8
+
+    max_allowed_nz = 40000
+
+    velocity_q_upper_bound = 0.95d0
+
+    !logQ_min_limit = -100d0
+
+    min_timestep_limit = 1d-99
+    corr_coeff_limit = 1d0
+    dX_nuc_drop_limit = 2d-4
+    min_timestep_factor = 0.5
+    max_years_for_timestep = 10d0
+
+    delta_lgL_He_limit = 0.02d0
+    lgL_He_burn_min = 0d0
+    lgL_He_burn_relative_limit = 10d0
+    delta_lgL_z_limit = 0.02d0
+    lgL_z_burn_min = 0d0
+
+    redo_limit = -1
+
+    varcontrol_target = 1d-4
+
+    !extra spatial resolution for receding convective core
+    mesh_delta_coeff = 0.5
+    max_dq = 5d-4
+    min_dq_for_xa = 1d-5
+
+    newton_iterations_limit = 8
+
+    profile_interval = 50
+    history_interval = 1
+    terminal_cnt = 1
+    write_header_frequency = 10
+    max_num_profile_models = 10000
+
+    use_ledoux_criterion = .true.
+    mixing_length_alpha = 1.5d0
+    alpha_semiconvection = 1d0
+    thermohaline_coeff = 1d0
+    remove_small_D_limit = 1d-50
+    mixing_D_limit_for_log = 1d-50
+
+  ! rotational mixing coeffs
+    am_nu_ST_factor = 1.0
+    D_visc_factor = 0.0
+    am_nu_SH_factor = 0.0
+    D_ST_factor = 0.0
+    D_SH_factor = 0.0
+    D_GSF_factor = 1.0
+    D_ES_factor = 1.0
+    D_SSI_factor = 1.0
+    D_DSI_factor = 1.0
+    am_D_mix_factor = 0.0333d0
+    am_gradmu_factor = 0.1d0
+    num_cells_for_smooth_gradL_composition_term = 2
+
+  ! custom opacity that scales with iron abundance
+    use_Type2_opacities = .true.
+    Zbase = 0.00034d0
+
+  ! we use step overshooting
+    step_overshoot_f_above_burn_h_core = 0.345
+    overshoot_f0_above_burn_h_core = 0.01
+    step_overshoot_D0_coeff = 1.0
+
+  ! this is to avoid odd behaviour when a star switches from accreting to mass losing
+    max_mdot_jump_for_rotation = 1.1
+
+/ ! end of controls namelist
+
+
+&pgstar
+  ! show temperature/density profile
+  ! this plots the internal structure at single timestep
+    TRho_Profile_win_flag = .true.
+
+  ! add legend explaining colors
+    show_TRho_Profile_legend = .true.
+
+  ! display numerical info about the star
+    show_TRho_Profile_text_info = .true.
+
+  ! set window size (aspect_ratio = height/width)
+    TRho_Profile_win_width = 8
+    TRho_Profile_win_aspect_ratio = 0.75
+      
+/ ! end of pgstar namelist
