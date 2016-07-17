@@ -1,6 +1,7 @@
 # 2016 binary models
 
 **MESA version: 8845**
+but you are welcome to try/adjust these files for future versions.
 
 To easily download these files, simply use
 ```
@@ -9,19 +10,19 @@ svn export https://github.com/orlox/mesa_input_data/trunk/2016_binary_models 201
 
 These models are intended to reproduce the single star LMC models from Brott et al. (2011)
 (A&A, 530, A115), and also include the contribution from binary systems. Just in case,
-input data is provided as well for the GAL and SMC models of Brott et al(2011), although
+input data is provided as well for the GAL and SMC models of Brott et al. (2011), although
 these have not been well tested.
 
 A description of each directory is as follows.
 
-- 1_composition: Generates input composition files for MESA. Unless you plan
+- [1_composition](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#1_composition): Generates input composition files for MESA. Unless you plan
 on changing the nuclear network, you need only extract the input files
 xa_GAL.data, xa_LMC.data, and xa_SMC.data.
-- 2_opacity_tables: Custom opacity tables produced from the Opal website.
-- 3_nets: Slightly modified basic and co_burn nuclear networks.
-- 4_ZAMS_models: Produces sets of ZAMS models for each composition.
-- 5_single: Template work directory to model single stars.
-- 6_binary: Template work directory to model binary stars.
+- [2_opacity_tables](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#2_opacity_tables): Custom opacity tables produced from the Opal website.
+- [3_nets](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#3_nets): Slightly modified basic and co_burn nuclear networks.
+- [4_ZAMS_models](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#4_ZAMS_models): Produces sets of ZAMS models for each composition.
+- [5_single](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#5_single): Template work directory to model single stars.
+- [6_binary](https://github.com/orlox/mesa_input_data/tree/master/2016_binary_models#6_binary): Template work directory to model binary stars.
 
 Users interested simply in reproducing the single and binary models (not on modifying the
 composition or nuclear networks used), can jump directly to the description on 5_single
@@ -123,4 +124,40 @@ convenient, users can modify inlist_zams_specification to change the range of co
 ## 5_single
 And to finally compute some stellar models!
 
+First, the custom opacity tables, nets, and ZAMS models need to be included into MESA.
+Assuming $MESA_INPUT is the directory where these files have been downloaded, and
+$MESA_DIR is the mesa directory to use, then the nets and ZAMS models can be easily imported
+using
+```
+cp $MESA_INPUT/3_nets/*.net $MESA_DIR/data/net_data/nets/
+cp $MESA_INPUT/4_ZAMS_models/*.data $MESA_DIR/data/star_data/zams_models
+```
+To include the opacity tables requires a bit more work, as these need to through the MESA
+preprocessor first.
+```
+cd $MESA_DIR/kap/preprocessor/
+tar -jxvf kap_input_data.tar.bz2
+cp $MESA_INPUT/2_opacity_tables/BROTT_* $MESA_DIR/kap/preprocessor/kap_input_data/opal/
+cp -r $MESA_INPUT/2_opacity_tables/Type2_BROTT_* $MESA_DIR/kap/preprocessor/kap_input_data/opal/
+cp $MESA_INPUT/inlist* .
+cp $MESA_INPUT/rebuild_all .
+./rebuild_all
+./build_4_export
+cd ..
+./build_data_and_export
+```
+and now all neccesary data should be included into MESA. Note that we rewrite the rebuild_all script,
+in case you have other custom opacities included into MESA, or have troubles getting this to work
+in newer MESA versions, you might want to manually include the neccesary entries into rebuild_all.
 
+And now to run a single star model, simply cd into 5_single, adjust inlist_project to specify
+whether the model is GAL, LMC or SMC, and the initial mass and rotation velocity, compile and run
+```
+./clean && ./mk
+./rn
+```
+
+```
+
+## 6_binary
+Run a binary
