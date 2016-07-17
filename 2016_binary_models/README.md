@@ -1,11 +1,11 @@
 # 2016 binary models
 
-MESA version: 8845
+**MESA version: 8845**
 
 These models are intended to reproduce the single star LMC models from Brott et al. (2011)
 (A&A, 530, A115), and also include the contribution from binary systems. Just in case,
 input data is provided as well for the GAL and SMC models of Brott et al(2011), although
-it has not been well tested.
+these have not been well tested.
 
 A description of each folder is as follows.
 
@@ -27,7 +27,7 @@ if not, follow in detail the instructions given in the [MESA website](http://mes
 
 ## 1_composition
 MESA work directory that uses the chem module to produce input composition
-files for MESA with the custom GAL, LMC and SCM mixtures of Brott et al. (2011).
+files for MESA with the custom GAL, LMC and SMC mixtures of Brott et al. (2011).
 For our models, we use the simple basic and co_burn networks of MESA, with the inclusion
 of iron and calcium. Iron is included because we scale winds in terms of iron abundance,
 calcium is included as an isotope to pile up everything that is not directly included
@@ -63,3 +63,33 @@ To use, cd into the working direct, compile and run
 ```
 
 this will write down the three file xa_GAL.data, xa_LMC.data, and xa_SMC.data. 
+Terminal output reports the values for X,Y and Z for each mixture, where the 
+"final" values are after readjusting Y as 1-X-Z so that abundances add up to 1
+within machine precision,
+```
+LMC X,Y,Z,sum  0.73826111690125806       0.25689791002408885        4.8410022998830000E-003   1.0000000292252300     
+SMC X,Y,Z,sum  0.74598059315035770       0.25184032236653253        2.1791140256615994E-003   1.0000000295425517     
+GAL X,Y,Z,sum  0.72559344897166456       0.26519741622157317        9.2091635112669136E-003   1.0000000287045048     
+final LMC X,Y,Z,sum  0.73826111690125806       0.25689788079885895        4.8410022998829991E-003   1.0000000000000000     
+final SMC X,Y,Z,sum  0.74598059315035770       0.25184029282398068        2.1791140256616011E-003   1.0000000000000000     
+final GAL X,Y,Z,sum  0.72559344897166456       0.26519738751706851        9.2091635112669119E-003  0.99999999999999989
+```
+Note that these differ slightly from the values of Brott et al. 2011. This is due to two reasons.
+First, we include all isotopes from the Asplund et al. (2005) solar values when computing Z, while
+the Brott models only consider those present in the nuclear network they use. Second, when computing
+mass abundances from abundances by number, they use atomic numbers instead of atomic masses.
+
+## 2_opacity_tables
+Brott et al. (2011) use opacity tables for solar scaled composition. As the custom mixtures
+considered are not simply solar scaled, they compensate for this by using an effective metallicity
+for the computation of opacities
+```
+Zeff=Zsun * Fe / Fe_sun
+```
+Instead of using this approach, we create custom opal tables. To do this, we use the OPAL website,
+which allows the generation of [Type 1 tables](http://opalopacity.llnl.gov/type1inp.html) (i.e. fixed
+metal fractions and X,Z variable) and
+[Type 2 tables](http://opalopacity.llnl.gov/type2inp.html) (i.e. X,Z and C, O abundances variable).
+The input required for the opal website are relative abundances by number of metals, and these values are
+provided in the xa_GAL.data, xa_LMC.data, and xa_SMC.data files in case the user wants to regenerate the tables,
+or create new ones for different mixtures.
