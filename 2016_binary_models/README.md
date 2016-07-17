@@ -2,12 +2,17 @@
 
 **MESA version: 8845**
 
+To easily download these files, simply use
+```
+svn export https://github.com/orlox/mesa_input_data/trunk/2016_binary_models 2016_binary_models
+```
+
 These models are intended to reproduce the single star LMC models from Brott et al. (2011)
 (A&A, 530, A115), and also include the contribution from binary systems. Just in case,
 input data is provided as well for the GAL and SMC models of Brott et al(2011), although
 these have not been well tested.
 
-A description of each folder is as follows.
+A description of each directory is as follows.
 
 - 1_composition: Generates input composition files for MESA. Unless you plan
 on changing the nuclear network, you need only extract the input files
@@ -23,7 +28,7 @@ composition or nuclear networks used), can jump directly to the description on 5
 to setup single stellar models.
 
 Throughout this README, it is assumed that the user already has MESA properly installed,
-if not, follow in detail the instructions given in the [MESA website](http://mesa.sourceforge.net/prereqs.html)
+if not, follow in detail the instructions given in the [MESA website](http://mesa.sourceforge.net/prereqs.html).
 
 ## 1_composition
 MESA work directory that uses the chem module to produce input composition
@@ -93,3 +98,29 @@ metal fractions and X,Z variable) and
 The input required for the opal website are relative abundances by number of metals, and these values are
 provided in the xa_GAL.data, xa_LMC.data, and xa_SMC.data files in case the user wants to regenerate the tables,
 or create new ones for different mixtures.
+
+The tables included in this directory are already organized in a MESA-friendly way, and the
+way to set them up is described in the 5_single section regarding single star models.
+
+## 3_nets
+As already mentioned, we use slightly modified basic and co_burn nets, these simply include the
+isotopes fe56 and ca40 as a fillup element to account for the mass of other isotopes not included
+in the network. Both of these are inert isotopes. 
+
+## 4_ZAMS_models
+This directory is to recreate the ZAMS models for each composition. To use, modify the files
+inlist_create_zams and inlist_zams_specification to use the desired composition (GAL, LMC or SMC),
+cd into the directory, compile and run
+```
+./clean && ./mk
+./rn
+```
+This will create the files with ZAMS models BROTT_GAL.data, BROTT_LMC.data and BROTT_SMC.data.
+By default models are computed for the mass range 1-100 Msun, MESA can still start models outside
+this mass range, but does so by adjusting the mass of the model at the beginning of the run. If
+convenient, users can modify inlist_zams_specification to change the range of computed models.
+
+## 5_single
+And to finally compute some stellar models!
+
+

@@ -25,7 +25,7 @@
     !initial_z = 9.2091635112669119d-3 ! GAL
 
     history_interval = 20
-    terminal_cnt = 5
+    terminal_interval = 5
 
     varcontrol_target = 2d-4
 

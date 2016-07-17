@@ -36,10 +36,15 @@ function do_one_CO {
 	echo
 }
 
+mkdir -p data/kap_data
+
 rm -f data/kap_data/*.data
 rm -f data/kap_data.tar.bz2
 
-#do_one inlist_a05+Ne
+#As of r8118 file is empty kap_input_data/opal/A05+Ne
+# do_one inlist_a05+Ne
+do_one inlist_BROTT_LMC
+do_one_CO inlist_BROTT_LMC_CO
 
 do_one inlist_a09
 do_one_CO inlist_a09_CO
@@ -74,15 +79,6 @@ do_one inlist_gs98_aFe_p4
 do_one_CO inlist_gs98_aFe_p4_CO
 do_one inlist_gs98_aFe_p6 
 do_one inlist_gs98_aFe_p8 
-
-do_one inlist_BROTT_LMC
-do_one_CO inlist_BROTT_LMC_CO
-do_one inlist_BROTT_SMC
-do_one_CO inlist_BROTT_SMC_CO
-do_one inlist_BROTT_GAL
-do_one_CO inlist_BROTT_GAL_CO
-
-do_one inlist_lowT_fa05_gs98
 
 
 
