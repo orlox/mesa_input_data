@@ -10,3 +10,9 @@ custom GAL, LMC and SMC composition of Brott etal. (2011) (A&A, 530, A115), **WI
 me if you intend to use these.**
 - [2016_contact](2016_contact): Input data to create models for contact binaries in the LMC. **WIP, please
 contact me if you intend to use these.**
+
+If you simply want to get a copy of one of these projects, just do, for example,
+
+```
+svn export https://github.com/orlox/mesa_input_data/trunk/2016_binary_models 2016_binary_models
+```
