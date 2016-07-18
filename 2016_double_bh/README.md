@@ -44,3 +44,50 @@ condition for termination at helium depletion is set in *src/run_binary_extras.f
 reason to not specify this termination condition in the inlists, is because after one
 component depletes helium, it is assumed to transform into a BH of the same mass, and
 evolution follows assuming it is a point mass.
+
+To run any of these models, cd into the corresponding directory, adjust inlist_extra,
+compile and run
+```
+./clean && ./mk
+./rn
+```
+
+## collapse models
+For three different models at the lowest metallicity (Zsun/50), we extended evolution until
+late phases. This folder contains templates for single star models, together with saved MESA
+models, that are below, at, and above the PISNe mass regime. Note that due to numerical issues,
+these models do not include mass loss, and are modelled with a surface boundary condition
+of fixed surface pressure, otherwise severe convergence errors arise at the surface
+```
+which_atm_option = 'fixed_Psurf'
+atm_fixed_Psurf = 1d8
+```
+To run any of these models, cd into the corresponding directory, adjust inlist_extra,
+compile and run
+```
+./clean && ./mk
+./rn
+```
+
+## data.tar.gz
+This compressed file contains tables with the final fate of models with metallicities Zsun/10,
+Zsun/20 and Zsun/50.
+
+## template_8845
+This is a modified template meant to work with MESA version 8845. There are many adjustements
+with respect to the older ones to improve performance, and users are advised to work from
+this template unless they really need to reproduce the older results. Unlike the other templates,
+this is a single template for all metallicities, with the composition specified in the
+*inlist_extra_sj* file
+```
+&star_job
+relax_initial_Z = .true.
+new_Z = 0.001000000000d0
+relax_initial_Y = .true.
+new_Y = 0.2496d0
+/ ! end of star_job namelist
+
+&controls
+Zbase = 0.001000000000d0
+/ ! end of controls namelist
+```

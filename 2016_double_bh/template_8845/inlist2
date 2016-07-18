@@ -129,7 +129,7 @@
     mdot_revise_factor = 1.2
     implicit_mdot_boost = 0.1
 
-  ! custom opacity that scales with iron abundance
+  ! Use type2 opacity tables
     use_Type2_opacities = .true.
     !Zbase = 0.00034d0
 
