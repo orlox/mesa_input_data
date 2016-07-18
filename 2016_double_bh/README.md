@@ -91,3 +91,7 @@ new_Y = 0.2496d0
 Zbase = 0.001000000000d0
 / ! end of controls namelist
 ```
+
+## scripts
+These are mainly plotting tools and also scripts used to compute certain results. No
+support provided for these, their here only for my convenience.
