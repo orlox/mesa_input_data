@@ -13,6 +13,9 @@ we also provide input files that work with MESA version 8845. A test_suite case 
 this channel of evolution should remain updated in the code, and can be found in
 $MESA_DIR/binary/test_suite/double_bh
 
+Throughout this README, it is assumed that the user already has MESA properly installed,
+if not, follow in detail the instructions given in the [MESA website](http://mesa.sourceforge.net/prereqs.html).
+
 ![mass_period](mass_period.png)
 
 ## Z04, Z10, Z20, Z50
