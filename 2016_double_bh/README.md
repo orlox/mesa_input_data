@@ -65,8 +65,7 @@ of fixed surface pressure, otherwise severe convergence errors arise at the surf
 which_atm_option = 'fixed_Psurf'
 atm_fixed_Psurf = 1d8
 ```
-To run any of these models, cd into the corresponding directory, adjust inlist_extra,
-compile and run
+To run any of these models, cd into the corresponding directory and run
 ```
 ./clean && ./mk
 ./rn
