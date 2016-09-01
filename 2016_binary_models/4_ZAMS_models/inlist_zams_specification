@@ -2,13 +2,13 @@
 
 &create_zams_job
 
-   create_z = 4.8410022998829991d-3
-   create_y = 0.25689788079885895d0
-   zams_name = 'BROTT_LMC'
+   !create_z = 4.8410022998829991d-3
+   !create_y = 0.25689788079885895d0
+   !zams_name = 'BROTT_LMC'
 
-   !create_z = 2.1791140256616011d-3
-   !create_y = 0.25184029282398068d0
-   !zams_name = 'BROTT_SMC'
+   create_z = 2.1791140256616011d-3
+   create_y = 0.25184029282398068d0
+   zams_name = 'BROTT_SMC'
 
    !create_z = 9.2091635112669119d-3
    !create_y = 0.26519738751706851d0

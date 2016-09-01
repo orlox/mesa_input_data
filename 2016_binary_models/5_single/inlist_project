@@ -1,0 +1,172 @@
+
+! inlist_test_rlo
+
+
+
+&star_job
+
+    show_log_description_at_start = .false.
+
+    new_rotation_flag = .true.
+    change_rotation_flag = .true.
+    set_initial_surface_rotation_v = .true.
+    ! this is just a random number, it is set in inlist_extra
+    ! new_surface_rotation_v = 50
+
+    file_for_uniform_xa = "xa_LMC.data"
+    set_uniform_initial_xa_from_file = .true.
+
+    save_model_when_terminate = .true.
+    save_model_filename = "model1.dat"
+
+    h_he_net = 'basic2.net'
+    co_net = 'co_burn2.net'
+
+    kappa_file_prefix = "BROTT_LMC"
+    kappa_CO_prefix = "BROTT_LMC_co"
+
+    read_extra_star_job_inlist1 = .true.
+    extra_star_job_inlist1_name = 'inlist_extra'
+
+/ ! end of star_job namelist
+
+
+
+&controls
+
+    read_extra_controls_inlist1 = .true.
+    extra_controls_inlist1_name = 'inlist_extra'
+
+    timestep_factor_for_retries = 0.8
+    timestep_factor_for_backups = 0.8
+    min_timestep_factor = 0.9
+    max_timestep_factor = 1.05d0
+    backup_hold = 10
+    retry_hold = 5
+    redo_limit = -1
+    relax_hard_limits_after_retry = .false.
+    ! min timestep limit 1d-4 years
+    min_timestep_limit = 3154
+
+    report_hydro_solver_progress = .true.
+
+    newton_iterations_limit = 7
+
+    ! Fixing the position of the Lagrangian region of the mesh helps
+    ! convergence near the Eddington limit
+    max_logT_for_k_below_const_q = 100
+    max_q_for_k_below_const_q = 0.995
+    min_q_for_k_below_const_q = 0.995
+    max_logT_for_k_const_mass = 100
+    max_q_for_k_const_mass = 0.99
+    min_q_for_k_const_mass = 0.99
+
+    !extra spatial resolution
+    mesh_delta_coeff = 0.8
+    max_dq = 0.001
+    xtra_coef_above_xtrans = 0.2
+    xtra_coef_below_xtrans = 0.2
+    min_dq_for_xa = 1d-5
+    max_allowed_nz = 15000
+
+    fix_eps_grav_transition_to_grid = .true.
+
+    initial_z = 4.841d-3
+    zams_filename = 'BROTT_LMC.data'
+
+    max_model_number = 10000
+    max_number_retries = 1000
+
+    ! extra controls for timestep
+    varcontrol_target = 1d-4
+    ! these are for changes in mdot at the onset of mass transfer
+    delta_lg_star_mass_limit = 2d-3
+    delta_lg_star_mass_hard_limit = 2d-3
+    ! these are to properly resolve core hydrogen depletion
+    delta_lg_XH_cntr_limit = 0.02d0
+    delta_lg_XH_cntr_max = 0.0d0
+    delta_lg_XH_cntr_min = -6.0d0
+    delta_lg_XH_cntr_hard_limit = 0.03d0
+    ! these are to properly resolve core helium depletion
+    delta_lg_XHe_cntr_limit = 0.02d0
+    delta_lg_XHe_cntr_max = 0.0d0
+    delta_lg_XHe_cntr_min = -6.0d0
+    delta_lg_XHe_cntr_hard_limit = 0.03d0
+    ! these are to properly resolve core carbon depletion
+    delta_lg_XC_cntr_limit = 0.01d0
+    delta_lg_XC_cntr_max = 0.0d0
+    delta_lg_XC_cntr_min = -5.0d0
+    delta_lg_XC_cntr_hard_limit = 0.02d0
+    ! this is mainly to resolve properly when the star goes off the main sequence
+    delta_HR_limit = 0.005d0
+    ! relax default dHe/He, otherwise growing He core can cause things to go at a snail pace
+    dHe_div_He_limit = 2.0
+    ! we're not looking for much precision at the very late stages
+    dX_nuc_drop_limit = 5d-2
+
+    profile_interval = 50
+    history_interval = 1
+    terminal_interval = 1
+    write_header_frequency = 10
+    max_num_profile_models = 10000
+
+    use_ledoux_criterion = .true.
+    mixing_length_alpha = 1.5
+    alpha_semiconvection = 1d-2
+    thermohaline_coeff = 1d0
+    remove_small_D_limit = 1d-50
+    mixing_D_limit_for_log = 1d-50
+
+  ! rotational mixing coeffs
+    am_nu_ST_factor = 1.0
+    D_visc_factor = 0.0
+    am_nu_SH_factor = 0.0
+    D_ST_factor = 0.0
+    D_SH_factor = 0.0
+    D_GSF_factor = 1.0
+    D_ES_factor = 1.0
+    D_SSI_factor = 1.0
+    D_DSI_factor = 1.0
+    am_D_mix_factor = 0.0333d0
+    am_gradmu_factor = 0.1d0
+    num_cells_for_smooth_gradL_composition_term = 3
+
+  ! premix omega to avoid doing the newton with crazily shearing material
+    premix_omega = .true.
+
+  ! wind options
+    use_other_wind = .true.
+
+  ! controls for implicit wind
+    surf_avg_tau_min = 0
+    surf_avg_tau = 10
+    max_mdot_redo_cnt = 200
+    min_years_dt_for_redo_mdot = 0
+    surf_w_div_w_crit_limit = 0.99d0
+    surf_w_div_w_crit_tol = 0.06d0
+    rotational_mdot_boost_fac = 1d10
+    rotational_mdot_kh_fac = 1d10
+    mdot_revise_factor = 1.2
+    implicit_mdot_boost = 0.1
+
+  ! custom opacity that scales with iron abundance
+    use_Type2_opacities = .true.
+    Zbase = 4.841d-03
+    
+  ! we use step overshooting
+    step_overshoot_f_above_burn_h_core = 0.345
+    overshoot_f0_above_burn_h_core = 0.01
+    step_overshoot_D0_coeff = 1.0
+    remove_mixing_glitches = .false.
+
+    max_brunt_B_for_overshoot = 1d-1
+
+  ! this is to avoid odd behaviour when a star switches from accreting to mass losing
+    max_mdot_jump_for_rotation = 1d99 
+
+/ ! end of controls namelist
+
+
+&pgstar
+      
+/ ! end of pgstar namelist

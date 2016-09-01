@@ -1,0 +1,6 @@
+&star_job
+new_surface_rotation_v = 200d0
+/ ! end of star_job namelist
+&controls
+initial_mass = 10.0d0
+/ ! end of controls namelist

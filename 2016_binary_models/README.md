@@ -150,13 +150,29 @@ and now all neccesary data should be included into MESA. Note that we rewrite th
 in case you have other custom opacities included into MESA, or have troubles getting this to work
 in newer MESA versions, you might want to manually include the neccesary entries into rebuild_all.
 
-And now to run a single star model, simply cd into 5_single, adjust inlist_project to set
-the initial mass, rotation velocity and to specify
-whether the model is GAL, LMC or SMC. Then compile and run
+And now to run a single star model, simply cd into 5_single, adjust inlist_extra to set
+the initial mass, rotation velocity and inlist_project to specify
+whether the model is GAL, LMC or SMC (you also need to copy locally the corresponding xa file). Then compile and run
 ```
 ./clean && ./mk
 ./rn
 ```
+This work directory includes a run_star_extras that does multiple things:
+- Define stellar winds as in Brott et al. (2011)
+- Store profiles at specific points through H, He and C burning
+- Include a timestep control in terms of absolute changes in central H
+- Relax the model to the main sequence
+
+The relaxation process is done to ignore loops at the beginning of the main sequence, caused due to the star being
+off CN-equilibrium. The main steps of this relaxation are as follows:
+- Relax the rotational velocity to the given initial value
+- Model the star, without mass loss, until |log L - log L_nuc| < 0.005. At this point the star will essentially be
+in CN equilibrium
+- By this point there will be an offset in the rotational velocity from the desired one. To compensate for this,
+re-relax the rotational velocity to the one we want.
+- Proceed with normal evolution, turning on mass loss.
+
+The output from the early, pre-relaxtion phase, should be ignored afterwards.
 
 ## 6_binary
 Run a binary
