@@ -152,7 +152,8 @@ in newer MESA versions, you might want to manually include the neccesary entries
 
 And now to run a single star model, simply cd into 5_single, adjust inlist_extra to set
 the initial mass, rotation velocity and inlist_project to specify
-whether the model is GAL, LMC or SMC (you also need to copy locally the corresponding xa file). Then compile and run
+whether the model is GAL, LMC or SMC (you also need to copy locally the corresponding xa file,
+by default xa_LMC.data is included). Then compile and run
 ```
 ./clean && ./mk
 ./rn
