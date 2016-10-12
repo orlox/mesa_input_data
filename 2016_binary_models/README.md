@@ -139,8 +139,8 @@ cd $MESA_DIR/kap/preprocessor/
 tar -jxvf kap_input_data.tar.bz2
 cp $MESA_INPUT/2_opacity_tables/BROTT_* $MESA_DIR/kap/preprocessor/kap_input_data/opal/
 cp -r $MESA_INPUT/2_opacity_tables/Type2_BROTT_* $MESA_DIR/kap/preprocessor/kap_input_data/opal/
-cp $MESA_INPUT/inlist* .
-cp $MESA_INPUT/rebuild_all .
+cp $MESA_INPUT/2_opacity_tables/inlist* .
+cp $MESA_INPUT/2_opacity_tables/rebuild_all .
 ./rebuild_all
 ./build_4_export
 cd ..
