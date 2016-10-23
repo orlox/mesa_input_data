@@ -1,0 +1,11 @@
+&star_job
+relax_initial_Z = .true.
+new_Z = 0.000316227766d0
+relax_initial_Y = .true.
+new_Y = 0.248300832755d0
+/ ! end of star_job namelist
+
+&controls
+Zbase = 0.000316227766d0
+/ ! end of controls namelist
+
