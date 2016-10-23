@@ -56,12 +56,49 @@
          b% extras_binary_check_model=> extras_binary_check_model
          b% extras_binary_finish_step => extras_binary_finish_step
          b% extras_binary_after_evolve=> extras_binary_after_evolve
+         
+         b% use_other_jdot_ls = .true.
+         b% other_jdot_ls => correct_jdot_ls
 
          ! Once you have set the function pointers you want, then uncomment this (or set it in your star_job inlist)
          ! to disable the printed warning message,
           b% warn_binary_extra =.false.
          
       end subroutine extras_binary_controls
+
+      subroutine correct_jdot_ls(binary_id, ierr)
+         integer, intent(in) :: binary_id
+         integer, intent(out) :: ierr
+         type (binary_info), pointer :: b
+         real(dp) :: delta_J
+         ierr = 0
+         call binary_ptr(binary_id, b, ierr)
+         if (ierr /= 0) then
+            write(*,*) 'failed in binary_ptr'
+            return
+         end if
+         b% jdot_ls = 0
+         ! ignore in first step, or if not doing rotation
+         if (b% doing_first_model_of_run) &
+             return
+         ! bulk change in spin angular momentum takes tides into account
+         delta_J = b% s_donor% total_angular_momentum_old - &
+             b% s_donor% total_angular_momentum
+         ! ignore angular momentum lost through winds
+         if (b% s_donor% mstar_dot < 0) &
+             delta_J = delta_J - b% s_donor% angular_momentum_removed * &
+                 abs(b% mdot_system_wind(b% d_i) / b% s_donor% mstar_dot)
+         ! Repeat for accretor
+         if (b% point_mass_i == 0) then
+             delta_J = delta_J + b% s_accretor% total_angular_momentum_old - &
+                 b% s_accretor% total_angular_momentum
+             if (b% s_accretor% mstar_dot < 0) then
+                 ! all AM lost from the accretor is lost from the system
+                 delta_J = delta_J - b% s_accretor% angular_momentum_removed
+             end if
+         end if
+         b% jdot_ls = delta_J / b% s_donor% dt
+      end subroutine correct_jdot_ls
 
       integer function how_many_extra_binary_history_columns(binary_id)
          use binary_def, only: binary_info
