@@ -1,4 +1,4 @@
-# 2016 Double BH
+# 2016 Double BH (beware: read section on template for mesa 8845, which includes an important bugfix)
 
 **MESA version: 8115**
 but you are welcome to try/adjust these files for future versions.
@@ -76,7 +76,10 @@ This compressed file contains tables with the final fate of models with metallic
 Zsun/20 and Zsun/50.
 
 ## template_8845
-This is a modified template meant to work with MESA version 8845. There are many adjustements
+This is a modified template meant to work with MESA version 8845. **These files also correct a bug with
+LS coupling which was reported by Martin Carrington. This modifies the results of the models, but not in
+a way that modifies the conclusions of the paper.**
+There are many adjustements
 with respect to the older ones to improve performance, and users are advised to work from
 this template unless they really need to reproduce the older results. Unlike the other templates,
 this is a single template for all metallicities, with the composition specified in the
