@@ -13,7 +13,7 @@ Input data to reproduce results in Sravan et al. (2017), submitted.
 Throughout this README, it is assumed that the user already has MESA properly installed,
 if not, follow in detail the instructions given in the [MESA website](http://mesa.sourceforge.net/prereqs.html).
 
-![IIb](IIb.png)
+![IIb](HR.png)
 
 ## binary_template
 This folder contains a template which was used to model binary systems.
