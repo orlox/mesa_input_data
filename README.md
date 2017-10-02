@@ -12,6 +12,9 @@ me if you intend to use these.**
 - [2016_binary_models](2016_binary_models): Input data to crease single and binary models with the 
 custom GAL, LMC and SMC composition of Brott et al. (2011) (A&A, 530, A115), **WIP, please contact 
 me if you intend to use these.**
+- [2017_IIb](2017)IIb): Input data to crease single and binary models at Z=0.02 that result
+in SNe type IIb progenitors, Sravan et al. (2017) (submitted)
+me if you intend to use these.**
 
 If you simply want to get a copy of one of these projects, just do, for example,
 
