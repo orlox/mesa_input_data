@@ -1,0 +1,42 @@
+&binary_job
+
+	inlist_names(1) = 'inlist1' 
+	inlist_names(2) = 'inlist2'
+	
+	evolve_both_stars = .true.
+
+/ ! end of binary_job namelist
+
+&binary_controls
+	mass_transfer_alpha = 0.0
+	mass_transfer_beta = 0.0
+
+   mdot_scheme = "Kolb"
+   
+	! be 100% sure MB is always off
+	do_jdot_mb = .false.
+	
+   ! initial conditions specified in extra inlist
+   read_extra_binary_controls_inlist1 = .true.
+   extra_binary_controls_inlist1_name = "inlist_extra"
+	
+	! timestep controls
+	fr = 0.025
+	!varcontrol_case_a = 3d-4
+	varcontrol_case_b = 3d-4
+	varcontrol_ms = 1d-4
+	varcontrol_post_ms = 3d-4
+	dt_softening_factor = 0.4
+	
+	limit_retention_by_mdot_edd = .false.
+	implicit_scheme_tolerance = 1d-2
+	max_tries_to_achieve = 200
+	min_change_factor = 1.025
+	max_change_factor = 1.2d0
+	initial_change_factor = 1.2d0
+	change_factor_fraction = 0.8d0
+	
+	min_mdot_for_implicit = 1d-10
+         
+/ ! end of binary_controls namelist
+

@@ -1,0 +1,57 @@
+! binary_history_columns.list -- determines the contents of binary history logs
+
+! units are cgs unless otherwise noted.
+! the first few lines of the log file contain parameter values as of the start of the run
+! for completeness, those items are described here:
+   
+   ! version_number -- MESA version number that created this file
+   ! initial_star_1_mass -- initial mass of first star (in Msun)
+   ! initial_star_2_mass -- initial mass of second star (in Msun)
+   ! initial_period -- initial period
+
+
+
+   
+      model_number ! model number of donor star
+      age ! age of donor star
+
+      period_days ! orbital period in days
+      !lg_separation ! log10 of orbital separation in rsun
+      binary_separation ! orbital separation in rsun
+      !eccentricity ! orbital eccentricity
+      v_orb_1 ! orbital velocity of first star (in km/s)
+      v_orb_2 ! orbital velocity of first star (in km/s)
+
+      star_1_radius ! radius of the first star in rsun
+      star_2_radius ! radius of the second star in rsun
+      rl_1 ! roche lobe radius of first star in rsun
+      rl_2 ! roche lobe radius of second star in rsun
+   
+      !edot ! total eccentricity change
+      !edot_tidal ! eccentricity change due to tidal interactions
+      !edot_enhance ! eccentricity change due to eccentricity pumping
+
+      star_1_mass ! mass of first star in msun
+      !lg_star_1_mass ! log10 mass of first star in msun
+      star_2_mass ! mass of second star in msun
+      !lg_star_2_mass ! log10 mass of second star in msun
+      lg_mstar_dot_1 ! log10 of first star abs(mdot) in Msun/secyer
+      lg_mstar_dot_2 ! log10 of second star abs(mdot) in Msun/secyer
+      lg_system_mdot_1 ! log10 of abs(mdot) of mass lost from the system from
+                        ! around star 1 due to inneficient mass transfer in Msun/secyer
+      lg_system_mdot_2 ! log10 of abs(mdot) of mass lost from the system from
+                        ! around star 2 due to inneficient mass transfer in Msun/secyer
+      lg_wind_mdot_1 ! log10 of first star abs(mdot) due to winds in Msun/secyer
+      lg_wind_mdot_2 ! log10 of second star abs(mdot) due to winds in Msun/secyer
+      !delta_star_1_mass ! star_2_mass/initial_star_2_mass
+      !delta_star_2_mass ! star_2_mass/initial_star_2_mass
+      xfer_fraction ! mass transfer fraction
+
+      J_orb ! orbital angular momentum
+      !J_spin_1 ! spin angular momentum of first star
+      !J_spin_2 ! spin angular momentum of second star
+      !J_total ! orbital+spin angular momentum
+      Jdot ! time derivative of orbital J
+      !P_rot_div_P_orb_1 ! rotational over orbital period for star 1
+      !P_rot_div_P_orb_2 ! rotational over orbital period for star 2
+

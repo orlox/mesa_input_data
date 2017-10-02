@@ -1,0 +1,89 @@
+&star_job
+
+	write_profile_when_terminate = .true.
+	filename_for_profile_when_terminate = "last_profile_prim.data"
+
+/ ! end of star_job namelist
+
+&controls
+
+	okay_to_reduce_gradT_excess = .true.
+	gradT_excess_age_fraction = 0.99d0
+	gradT_excess_max_change = 0.001d0
+
+   hot_wind_scheme = 'Dutch'
+   cool_wind_RGB_scheme = 'Dutch'
+   cool_wind_AGB_scheme = 'Dutch'
+   Dutch_wind_lowT_scheme = 'de Jager'
+   Dutch_scaling_factor = 1.0
+
+	! stopping	
+   xa_central_lower_limit_species(1) = 'c12'
+   xa_central_lower_limit(1) = 1d-6
+	envelope_mass_limit = 1d-2
+
+	! numerics	
+	mesh_delta_coeff = 1.0
+	redo_limit = -1
+	newton_iterations_limit = 6
+	!extra spatial resolution for receding convective core
+	max_dq = 0.001
+	min_dq_for_xa = 1d-5
+	! extra controls for timestep
+	! these are for changes in mass
+   delta_lg_star_mass_limit = 2d-3
+   delta_lg_star_mass_hard_limit = 2d-3
+	! these are to properly resolve core hydrogen depletion
+	delta_lg_XH_cntr_limit = 0.02d0
+	delta_lg_XH_cntr_max = 0.0d0
+	delta_lg_XH_cntr_hard_limit = 0.03d0
+	! these are to properly resolve core helium depletion
+	delta_lg_XHe_cntr_limit = 0.02d0
+	delta_lg_XHe_cntr_max = 0.0d0
+	delta_lg_XHe_cntr_hard_limit = 0.03d0
+	! these are to properly resolve core carbon depletion
+	delta_lg_XC_cntr_limit = 0.01d0
+	delta_lg_XC_cntr_max = 0.0d0
+	delta_lg_XC_cntr_hard_limit = 0.02d0
+	! this is mainly to resolve properly when the star goes off the main sequence
+	delta_HR_limit = 0.01d0
+   ! detailed burning at the very late phases does not make a significant difference
+	dX_nuc_drop_limit = 5d-2
+	remove_mixing_glitches = .false.
+	remove_small_D_limit = 1d-50
+	mixing_D_limit_for_log = 1d-50
+	! this is to avoid odd behaviour when a star switches from accreting to mass losing
+        max_mdot_jump_for_rotation = 1d99
+	
+	! IO
+	history_interval = 1
+        profile_interval = 10
+        terminal_interval = 1
+        write_header_frequency = 10
+        max_num_profile_models = 1
+
+	extra_terminal_output_file = 'log1' 
+	photo_directory = 'photos1'
+	log_directory = 'LOGS1'
+	
+	!! Physics
+	! convection
+	mixing_length_alpha = 1.5
+	use_ledoux_criterion = .true.
+	alpha_semiconvection = 1d0
+	thermohaline_coeff = 1d0
+	step_overshoot_f_above_burn_h_core = 0.345
+        overshoot_f0_above_burn_h_core = 0.01	
+	max_brunt_B_for_overshoot = 1d-1
+	
+	! custom opacity that scales with iron abundance
+	use_Type2_opacities = .true.
+	Zbase = 0.02
+
+	envelope_mass_limit = 1d-6
+	
+/ ! end of controls namelist
+
+&pgstar
+      
+/ ! end of pgstar namelist
