@@ -1,4 +1,4 @@
-# 2016 Double BH
+# 2016 ULX
 
 **MESA version: 8845**
 but you are welcome to try/adjust these files for future versions.
