@@ -1,0 +1,310 @@
+
+! inlist_test_rlo
+
+
+
+&star_job
+    pgstar_flag = .true.
+
+    set_initial_dt = .true.
+    years_for_initial_dt = 1d-5
+
+    show_log_description_at_start = .false.
+
+    show_net_species_info = .true.
+
+    !new_rotation_flag = .true.
+    !change_rotation_flag = .true.
+    !change_initial_rotation_flag = .true.
+    !set_initial_surface_rotation_v = .true.
+    !new_surface_rotation_v = 300d0
+
+    ! Relaxes composition to that of a star with an initial mass
+    relax_initial_composition = .true.
+    relax_composition_filename = "composition.dat"
+    num_steps_to_relax_composition = 100
+    !relax_initial_angular_momentum = .true.
+    !relax_angular_momentum_filename = "angular_momentum.dat"
+    relax_initial_entropy = .true.
+    relax_entropy_filename = "entropy.dat"
+    get_entropy_for_relax_from_eos = 'eosDE'
+    timescale_for_relax_entropy = 1d-9 ! in years
+    max_dt_for_relax_entropy = 5d-10 ! in years
+    num_timescales_for_relax_entropy = 300
+      
+    save_model_when_terminate = .true.
+    save_model_filename = 'final.mod'
+
+/ ! end of star_job namelist
+
+
+
+&controls
+    !min_T_for_acceleration_limited_conv_velocity = 0
+    !min_dt_for_increases_in_convection_velocity = 1
+    !mlt_accel_g_theta = 1d-2
+
+    initial_mass = 19.6805876455
+    !timestep_factor_for_retries = 0.8
+    !timestep_factor_for_backups = 0.8
+    !min_timestep_factor = 0.9
+    !max_timestep_factor = 1.05d0
+    !backup_hold = 10
+    !retry_hold = 5
+    !redo_limit = -1
+    !relax_hard_limits_after_retry = .false.
+    max_years_for_timestep = 1e6
+    min_timestep_limit = 1e-20
+
+    newton_iterations_limit = 7
+
+    ! Fixing the position of the Lagrangian region of the mesh helps
+    ! convergence near the Eddington limit
+    max_logT_for_k_below_const_q = 100
+    max_q_for_k_below_const_q = 0.995
+    min_q_for_k_below_const_q = 0.995
+    max_logT_for_k_const_mass = 100
+    max_q_for_k_const_mass = 0.99
+    min_q_for_k_const_mass = 0.99
+
+    !extra spatial resolution
+    mesh_delta_coeff = 0.8
+    max_dq = 0.001
+    xtra_coef_above_xtrans = 0.2
+    xtra_coef_below_xtrans = 0.2
+    min_dq_for_xa = 1d-5
+    max_allowed_nz = 15000
+
+    fix_eps_grav_transition_to_grid = .true.
+
+    max_model_number = 10000
+    max_number_retries = 500
+
+    ! extra controls for timestep
+    ! these are for changes in mdot at the onset of mass transfer
+    delta_lg_star_mass_limit = 2d-3
+    delta_lg_star_mass_hard_limit = 2d-3
+    ! these are to properly resolve core hydrogen depletion
+    delta_lg_XH_cntr_limit = 0.02d0
+    delta_lg_XH_cntr_max = 0.0d0
+    delta_lg_XH_cntr_min = -6.0d0
+    delta_lg_XH_cntr_hard_limit = 0.03d0
+    ! these are to properly resolve core helium depletion
+    delta_lg_XHe_cntr_limit = 0.02d0
+    delta_lg_XHe_cntr_max = 0.0d0
+    delta_lg_XHe_cntr_min = -6.0d0
+    delta_lg_XHe_cntr_hard_limit = 0.03d0
+    ! these are to properly resolve core carbon depletion
+    delta_lg_XC_cntr_limit = 0.01d0
+    delta_lg_XC_cntr_max = 0.0d0
+    delta_lg_XC_cntr_min = -5.0d0
+    delta_lg_XC_cntr_hard_limit = 0.02d0
+    ! this is mainly to resolve properly when the star goes off the main sequence
+    delta_HR_limit = 0.005d0
+    ! relax default dHe/He, otherwise growing He core can cause things to go at a snail pace
+    dHe_div_He_limit = 2.0
+    ! we're not looking for much precision at the very late stages
+    dX_nuc_drop_limit = 5d-2
+
+    photo_directory = 'photos1'
+    log_directory = 'LOGS1'
+
+    profile_interval = 1
+    history_interval = 1
+    terminal_interval = 1
+    write_header_frequency = 10
+    max_num_profile_models = 10000
+
+    use_ledoux_criterion = .true.
+    mixing_length_alpha = 1.5
+    alpha_semiconvection = 1d-2
+    thermohaline_coeff = 1d0
+    remove_small_D_limit = 1d-50
+    mixing_D_limit_for_log = 1d-50
+
+    hot_wind_scheme = 'Dutch'
+    cool_wind_RGB_scheme = 'Dutch'
+    cool_wind_AGB_scheme = 'Dutch'
+    Dutch_wind_lowT_scheme = 'de Jager'
+    Dutch_scaling_factor = 1.0
+
+    use_Type2_opacities = .true.
+    Zbase = 0.02
+    
+  ! we use step overshooting
+    step_overshoot_f_above_burn_h_core = 0.345
+    overshoot_f0_above_burn_h_core = 0.01
+    step_overshoot_D0_coeff = 1.0
+    remove_mixing_glitches = .false.
+
+  ! this is to avoid odd behaviour when a star switches from accreting to mass losing
+    max_mdot_jump_for_rotation = 1d99 
+
+    max_brunt_B_for_overshoot = 1d-1
+
+/ ! end of controls namelist
+
+
+&pgstar
+    pgstar_age_disp = 2.5
+    pgstar_model_disp = 2.5
+    
+    !### scale for axis labels
+    pgstar_xaxis_label_scale = 1.3
+    pgstar_left_yaxis_label_scale = 1.3
+    pgstar_right_yaxis_label_scale = 1.3
+    
+    Grid2_win_flag = .true.
+    Grid2_title = 'STAR 1'
+    Grid2_xleft = 0.1
+
+    Grid2_win_width = 15
+    Grid2_win_aspect_ratio = 0.65 ! aspect_ratio = height/width
+
+    Grid2_plot_name(4) = 'Mixing'
+
+    ! file output
+    !Grid2_file_flag = .true.
+    Grid2_file_dir = 'png'
+    Grid2_file_prefix = 'grid_'
+    Grid2_file_interval = 1 ! output when mod(model_number,Grid2_file_interval)==0
+    Grid2_file_width = -1 ! negative means use same value as for window
+    Grid2_file_aspect_ratio = -1 ! negative means use same value as for window
+
+    Grid2_num_cols = 7 ! divide plotting region into this many equal width cols
+    Grid2_num_rows = 8 ! divide plotting region into this many equal height rows
+    
+    Grid2_num_plots = 5 ! <= 10
+
+    Text_Summary1_txt_scale = 4
+    Text_Summary1_name(1,1) = 'model_number'
+    Text_Summary1_name(2,1) = 'log_star_age'
+    Text_Summary1_name(3,1) = 'log_dt'
+    Text_Summary1_name(4,1) = 'log_L'
+    Text_Summary1_name(5,1) = 'log_Teff'
+    Text_Summary1_name(6,1) = 'log_R'
+    Text_Summary1_name(7,1) = 'log_g'
+    Text_Summary1_name(8,1) = 'mass_conv_core'
+
+    Text_Summary1_name(1,2) = 'star_mass'
+    Text_Summary1_name(2,2) = 'log_abs_mdot'
+    Text_Summary1_name(3,2) = 'he_core_mass'
+    Text_Summary1_name(4,2) = 'log_cntr_T'
+    Text_Summary1_name(5,2) = 'log_cntr_Rho'
+    Text_Summary1_name(6,2) = 'center h1'
+    Text_Summary1_name(7,2) = 'center he4'
+    Text_Summary1_name(8,2) = 'surface he4'
+
+    !Text_Summary1_name(1,3) = 'binary_separation'
+    !Text_Summary1_name(2,3) = 'period_days'
+    !Text_Summary1_name(3,3) = 'star_1_mass'
+    !Text_Summary1_name(4,3) = 'star_2_mass'
+    !Text_Summary1_name(5,3) = 'rl_1'
+    !Text_Summary1_name(6,3) = 'star_1_radius'
+    !Text_Summary1_name(7,3) = 'rl_2'
+    !Text_Summary1_name(8,3) = 'star_2_radius'
+
+    !Text_Summary1_name(1,4) = ''
+    !Text_Summary1_name(2,4) = ''
+    !Text_Summary1_name(3,4) = ''
+    !Text_Summary1_name(4,4) = ''
+    !Text_Summary1_name(5,4) = ''
+    !Text_Summary1_name(6,4) = 'num_zones'
+    !Text_Summary1_name(7,4) = 'num_retries'
+    !Text_Summary1_name(8,4) = 'num_backups'
+    
+    Grid2_plot_name(1) = 'HR'
+    Grid2_plot_row(1) = 1 ! number from 1 at top
+    Grid2_plot_rowspan(1) = 3 ! plot spans this number of rows
+    Grid2_plot_col(1) =  1 ! number from 1 at left
+    Grid2_plot_colspan(1) = 2 ! plot spans this number of columns 
+    Grid2_plot_pad_left(1) = -0.05 ! fraction of full window width for padding on left
+    Grid2_plot_pad_right(1) = 0.05 ! fraction of full window width for padding on right
+    Grid2_plot_pad_top(1) = 0.00 ! fraction of full window height for padding at top
+    Grid2_plot_pad_bot(1) = 0.05 ! fraction of full window height for padding at bottom
+    Grid2_txt_scale_factor(1) = 0.65 ! multiply txt_scale for subplot by this
+
+    Grid2_plot_name(5) = 'Kipp'
+    Grid2_plot_row(5) = 4 ! number from 1 at top
+    Grid2_plot_rowspan(5) = 3 ! plot spans this number of rows
+    Grid2_plot_col(5) =  1 ! number from 1 at left
+    Grid2_plot_colspan(5) = 2 ! plot spans this number of columns 
+    Grid2_plot_pad_left(5) = -0.05 ! fraction of full window width for padding on left
+    Grid2_plot_pad_right(5) = 0.05 ! fraction of full window width for padding on right
+    Grid2_plot_pad_top(5) = 0.03 ! fraction of full window height for padding at top
+    Grid2_plot_pad_bot(5) = 0.0 ! fraction of full window height for padding at bottom
+    Grid2_txt_scale_factor(5) = 0.65 ! multiply txt_scale for subplot by this
+    Kipp_xaxis_name = "star_age"
+    Kipp_xaxis_in_Myr = .true.
+    Kipp_title = ""
+
+    Grid2_plot_name(2) = 'Text_Summary1'
+    Grid2_plot_row(2) = 7 ! number from 1 at top
+    Grid2_plot_rowspan(2) = 2 ! plot spans this number of rows
+    Grid2_plot_col(2) = 1 ! number from 1 at left
+    Grid2_plot_colspan(2) = 4 ! plot spans this number of columns 
+    Grid2_plot_pad_left(2) = -0.08 ! fraction of full window width for padding on left
+    Grid2_plot_pad_right(2) = -0.10 ! fraction of full window width for padding on right
+    Grid2_plot_pad_top(2) = 0.08 ! fraction of full window height for padding at top
+    Grid2_plot_pad_bot(2) = -0.04 ! fraction of full window height for padding at bottom
+    Grid2_txt_scale_factor(2) = 0.19 ! multiply txt_scale for subplot by this
+    
+    Grid2_plot_name(3) = 'Profile_Panels3'
+    Profile_Panels3_title = 'Abundance-Power-Mixing'
+    Profile_Panels3_num_panels = 3
+    Profile_Panels3_yaxis_name(1) = 'Abundance'
+    Profile_Panels3_yaxis_name(2) = 'Power'
+    Profile_Panels3_yaxis_name(3) = 'Mixing'
+    
+    Profile_Panels3_xaxis_name = 'mass'
+    Profile_Panels3_xaxis_reversed = .false.
+    Profile_Panels3_xmin = -101d0 ! only used if /= -101d0
+    Profile_Panels3_xmax = -101d0 ! 10 ! only used if /= -101d0
+    
+    Grid2_plot_row(3) = 1 ! number from 1 at top
+    Grid2_plot_rowspan(3) = 6 ! plot spans this number of rows
+    Grid2_plot_col(3) = 3 ! plot spans this number of columns 
+    Grid2_plot_colspan(3) = 3 ! plot spans this number of columns 
+    
+    Grid2_plot_pad_left(3) = 0.04 ! fraction of full window width for padding on left
+    Grid2_plot_pad_right(3) = 0.08 ! fraction of full window width for padding on right
+    Grid2_plot_pad_top(3) = 0.0 ! fraction of full window height for padding at top
+    Grid2_plot_pad_bot(3) = 0.0 ! fraction of full window height for padding at bottom
+    Grid2_txt_scale_factor(3) = 0.65 ! multiply txt_scale for subplot by this
+
+    Grid2_plot_name(4) = 'History_Panels1'
+    Grid2_plot_row(4) = 1 ! number from 1 at top
+    Grid2_plot_rowspan(4) = 8 ! plot spans this number of rows
+    Grid2_plot_col(4) =  6 ! number from 1 at left
+    Grid2_plot_colspan(4) = 2 ! plot spans this number of columns 
+    Grid2_plot_pad_left(4) = 0.05 ! fraction of full window width for padding on left
+    Grid2_plot_pad_right(4) = 0.03 ! fraction of full window width for padding on right
+    Grid2_plot_pad_top(4) = 0.0 ! fraction of full window height for padding at top
+    Grid2_plot_pad_bot(4) = 0.0 ! fraction of full window height for padding at bottom
+    Grid2_txt_scale_factor(4) = 0.65 ! multiply txt_scale for subplot by this
+
+    History_Panels1_xaxis_name = 'star_age'
+    History_Panels1_xaxis_reversed = .false.
+    History_Panels1_yaxis_name(1) = 'log_Teff'
+    History_Panels1_other_yaxis_name(1) = ''
+    History_Panels1_yaxis_name(2) = 'log_L'
+    History_Panels1_other_yaxis_name(2) = ''
+    History_Panels1_yaxis_name(3) = 'log_Lnuc'
+    History_Panels1_other_yaxis_name(3) = ''
+      
+    Abundance_line_txt_scale_factor = 1.1 ! relative to other text
+    Abundance_legend_txt_scale_factor = 1.1 ! relative to other text
+    Abundance_legend_max_cnt = 0
+    Abundance_log_mass_frac_min = -3.5 ! only used if < 0
+          
+    Text_Summary1_name(2,1) = 'star_age'
+    Text_Summary1_name(3,1) = 'time_step'
+    
+    Grid2_file_flag = .true.
+    Grid2_file_dir = 'png'
+    Grid2_file_prefix = 'grid_'
+    Grid2_file_interval = 50 ! 1 ! output when mod(model_number,Grid2_file_interval)==0
+    Grid2_file_width = -1 ! negative means use same value as for window
+    Grid2_file_aspect_ratio = -1 ! negative means use same value as for window
+
+/ ! end of pgstar namelist
