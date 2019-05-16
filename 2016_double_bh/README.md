@@ -75,6 +75,8 @@ To run any of these models, cd into the corresponding directory and run
 This compressed file contains tables with the final fate of models with metallicities Zsun/10,
 Zsun/20 and Zsun/50.
 
+All history files from the simulations done are also available through [Zenodo](http://zenodo.org). These files have been post-processed from the original raw MESA data to reduce their size.
+
 ## template_8845
 This is a modified template meant to work with MESA version 8845. **These files also correct a bug with
 LS coupling which was reported by Martin Carrington. This modifies the results of the models, but not in
