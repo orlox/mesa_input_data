@@ -111,7 +111,10 @@ isotopes fe56 and ca40 as a fillup element to account for the mass of other isot
 in the network. Both of these are inert isotopes. 
 
 ## 4_ZAMS_models
-This directory is to recreate the ZAMS models for each composition. To use, modify the files
+This directory is to recreate the ZAMS models for each composition. You need to setup the opacity
+tables and networks as described in the following section to use.
+
+To use, modify the files
 inlist_create_zams and inlist_zams_specification to use the desired composition (GAL, LMC or SMC),
 cd into the directory, compile and run
 ```
@@ -135,10 +138,11 @@ cp $MESA_INPUT/3_nets/*.net $MESA_DIR/data/net_data/nets/
 cp $MESA_INPUT/4_ZAMS_models/*.data $MESA_DIR/data/star_data/zams_models
 ```
 To include the opacity tables requires a bit more work, as these need to through the MESA
-preprocessor first.
+preprocessor first. This only parses the LMC opacity tables, if you want the LMC and GAL ones
+you need to uncomment them on the rebuild all file.
 ```
 cd $MESA_DIR/kap/preprocessor/
-tar -jxvf kap_input_data.tar.bz2
+tar -Jxvf kap_input_data.tar.xz
 cp $MESA_INPUT/2_opacity_tables/BROTT_* $MESA_DIR/kap/preprocessor/kap_input_data/opal/
 cp -r $MESA_INPUT/2_opacity_tables/Type2_BROTT_* $MESA_DIR/kap/preprocessor/kap_input_data/opal/
 cp $MESA_INPUT/2_opacity_tables/inlist* .
