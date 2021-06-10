@@ -321,7 +321,7 @@
          ierr = 0
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
-         how_many_extra_history_columns = 0
+         how_many_extra_history_columns = 1
       end function how_many_extra_history_columns
       
       
@@ -339,6 +339,12 @@
          ! the history_columns.list is only for the built-in history column options.
          ! it must not include the new column names you are adding here.
          
+         names(1) = 'pre_ZAMS'
+         if (s% lxtra(lx_pre_ZAMS)) then
+            vals(1) = 1d0
+         else
+            vals(1) = 0d0
+         end if
 
       end subroutine data_for_extra_history_columns
 

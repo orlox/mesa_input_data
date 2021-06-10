@@ -171,11 +171,9 @@ This work directory includes a run_star_extras that does multiple things:
 The relaxation process is done to ignore loops at the beginning of the main sequence, caused due to the star being
 off CN-equilibrium. The main steps of this relaxation are as follows:
 - Relax the rotational velocity to the given initial value
-- Model the star, without mass loss, until |log L - log L_nuc| < 0.005. At this point the star will essentially be
-in CN equilibrium
-- By this point there will be an offset in the rotational velocity from the desired one. To compensate for this,
-re-relax the rotational velocity to the one we want.
-- Proceed with normal evolution, turning on mass loss.
+- Model the star until |log L - log L_nuc| < 0.005, while fixing the rotation to the chosen initial value at the start of each step.
+- When the star satisfies |log L - log L_nuc| < 0.005 for longer than GM
+- Proceed with normal evolution.
 
 The output from the early, pre-relaxtion phase, should be ignored afterwards.
 
