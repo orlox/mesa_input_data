@@ -195,7 +195,7 @@
                s% job% pre_ms_logT_surf_limit, s% job% pre_ms_logP_surf_limit, &
                s% job% initial_zfracs, &
                s% job% dump_missing_metals_into_heaviest, &
-               .false., '', s% job% pre_ms_relax_num_steps, ierr)
+               .true., 'basic2.net', s% job% pre_ms_relax_num_steps, ierr)
             if (failed('star_create_pre_ms_model')) exit
             
             call evolve_to_zams(s, id, ierr)
@@ -264,8 +264,8 @@
             write(io_ms_index, 4) 'build', compiler_version_name
             write(io_ms_index, 4) 'MESA_SDK_version', mesasdk_version_name
             write(io_ms_index, 4) 'math_backend', math_backend
-            write(io_ms_index, 4) 'net_name', "'basic.net'"
-            write(io_ms_index, 2) 'species', 8
+            write(io_ms_index, 4) 'net_name', "'basic2.net'"
+            write(io_ms_index, 2) 'species', 10
             write(io_ms_index, 1) 'initial_z', create_z
             write(io_ms_index, 1) 'initial_y', create_y
             write(io_ms_index, *) ! blank line for end of property list
