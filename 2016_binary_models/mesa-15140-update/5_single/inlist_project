@@ -153,6 +153,7 @@
     thermohaline_coeff = 1d0
     remove_small_D_limit = 1d-50
     mixing_D_limit_for_log = 1d-50
+    !use_superad_reduction = .true. ! this can be used as a better (but unpublished) alternative to MLT++, use at your own risk
 
   ! rotational mixing coeffs
     am_nu_ST_factor = 1.0

@@ -108,8 +108,8 @@
          he4 = s% net_iso(ihe4)
          Xs = s% xa(h1,1)
          Ys = s% xa(he4,1)
-         ! Z=0.017 is Z from Grevesse et al. 1996
-         Z_div_Z_solar = s% kap_rq% Zbase/0.017d0
+         ! For wind scaling we use the ratio of iron abundance to the GAL value
+         Z_div_Z_solar = s% xa(s% net_iso(ife56),1)/1.0116465653352326d-3
          ! use Vink et al 2001, eqns 14 and 15 to set "jump" temperature
          Teff_jump = 1d3*(61.2d0 + 2.59d0*(-13.636d0 + 0.889d0*log10(Z_div_Z_solar)))
 
@@ -222,8 +222,8 @@
             log10w = -14.02d0 &
                      +1.24d0*log10(L1/Lsun) &
                      +0.16d0*log10(M1/Msun) &
-                     +0.81d0*log10(R1/Rsun) &
-                     +0.85d0*log10(Z_div_Z_solar)
+                     +0.81d0*log10(R1/Rsun) !&
+             !+0.85d0*log10(Z_div_Z_solar) ! we do not apply the Vink Z scaling here
             w = 10**(log10w)
          end subroutine eval_Nieuwenhuijzen_wind
 
@@ -250,9 +250,11 @@
          call star_ptr(id, s, ierr)
          if (ierr /= 0) return
 
-         s% xtra(x_old_wind) = 0d0
-         s% xtra(x_time_thermal_eq) = 0d0
-         s% lxtra(lx_pre_ZAMS) = .true.
+         if (.not. restart) then
+            s% xtra(x_old_wind) = 0d0
+            s% xtra(x_time_thermal_eq) = 0d0
+            s% lxtra(lx_pre_ZAMS) = .true.
+         end if
       end subroutine extras_startup
       
 
