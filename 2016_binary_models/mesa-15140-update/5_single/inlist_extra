@@ -1,0 +1,6 @@
+&star_job
+new_omega_div_omega_crit = 0.95d0
+/ ! end of star_job namelist
+&controls
+initial_mass = 60.0d0
+/ ! end of controls namelist

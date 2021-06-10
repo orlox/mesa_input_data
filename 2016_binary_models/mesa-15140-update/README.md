@@ -135,7 +135,7 @@ $MESA_DIR is the mesa directory to use, then the nets and ZAMS models can be eas
 using
 ```
 cp $MESA_INPUT/3_nets/*.net $MESA_DIR/data/net_data/nets/
-cp $MESA_INPUT/4_ZAMS_models/*.data $MESA_DIR/data/star_data/zams_models
+cp $MESA_INPUT/mesa-15140-update/4_ZAMS_models/*.data $MESA_DIR/data/star_data/zams_models
 ```
 To include the opacity tables requires a bit more work, as these need to through the MESA
 preprocessor first. This only parses the LMC opacity tables, if you want the LMC and GAL ones
@@ -166,8 +166,6 @@ by default xa_LMC.data is included). Then compile and run
 ```
 This work directory includes a run_star_extras that does multiple things:
 - Define stellar winds as in Brott et al. (2011)
-- Store profiles at specific points through H, He and C burning
-- Include a timestep control in terms of absolute changes in central H
 - Relax the model to the main sequence
 
 The relaxation process is done to ignore loops at the beginning of the main sequence, caused due to the star being
