@@ -94,6 +94,7 @@
 
     !extra spatial resolution
     mesh_delta_coeff = 0.8
+    mesh_Pgas_div_P_exponent = 0.5
     max_dq = 0.001
     min_dq_for_xa = 1d-5
     max_allowed_nz = 15000
@@ -165,7 +166,7 @@
     D_DSI_factor = 1.0
     am_D_mix_factor = 0.0333d0
     am_gradmu_factor = 0.1d0
-    num_cells_for_smooth_gradL_composition_term = 3
+    num_cells_for_smooth_gradL_composition_term = 5
 
   ! premix omega to avoid doing the newton with crazily shearing material
     premix_omega = .true.
@@ -194,8 +195,15 @@
     overshoot_bdy_loc(1) = 'top'
     overshoot_f(1) = 0.345
     overshoot_f0(1) = 0.01
+  ! a small amount of overshooting on top of any convective layer helps
+  ! avoid spurious numerical behavior
+    overshoot_scheme(2) = 'exponential'
+    overshoot_zone_type(2) = 'any'
+    overshoot_zone_loc(2) = 'any'
+    overshoot_bdy_loc(2) = 'top'
+    overshoot_f(2) = 0.01
+    overshoot_f0(2) = 0.005
 
-    overshoot_brunt_B_max = 1d-1
     calculate_Brunt_N2 = .true.
 
   ! this is to avoid odd behaviour when a star switches from accreting to mass losing

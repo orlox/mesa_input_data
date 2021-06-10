@@ -268,9 +268,14 @@
 
          ! check if the star is not yet at ZAMS. If that's the case, keep rotation fixed
          ! s% xtra(x_time_thermal_eq) is set in extras_check_model
-         write(*,*) "Check thermal timescale", standard_cgrav*(s% m(1))**2/(s% r(1)*s% L(1))/secyer
          if (s% lxtra(lx_pre_ZAMS)) then
+            write(*,*) "Check thermal timescale", standard_cgrav*(s% m(1))**2/(s% r(1)*s% L(1))/secyer
             if (s% xtra(x_time_thermal_eq) > standard_cgrav*(s% m(1))**2/(s% r(1)*s% L(1))) then
+               write(*,*) "thermal equilibrium for GM^2/RL, normal evolution from here"
+               s% lxtra(lx_pre_ZAMS) = .false.
+            else if (s% star_age*secyer > 5*standard_cgrav*(s% m(1))**2/(s% r(1)*s% L(1))) then
+               write(*,*) "WARNING: no equilibrium found after evolving for 5GM^2/RL"
+               write(*,*) "Switching to normal evolution"
                s% lxtra(lx_pre_ZAMS) = .false.
             else
                ! keep rotation fixed
