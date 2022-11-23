@@ -54,6 +54,7 @@
          b% data_for_extra_binary_history_columns => data_for_extra_binary_history_columns
 
          b% extras_binary_startup=> extras_binary_startup
+         b% extras_binary_start_step=> extras_binary_start_step
          b% extras_binary_check_model=> extras_binary_check_model
          b% extras_binary_finish_step => extras_binary_finish_step
          b% extras_binary_after_evolve=> extras_binary_after_evolve
@@ -126,6 +127,24 @@
          
          extras_binary_startup = keep_going
       end function  extras_binary_startup
+
+      integer function extras_binary_start_step(binary_id,ierr)
+         type (binary_info), pointer :: b
+         integer, intent(in) :: binary_id
+         integer, intent(out) :: ierr
+
+         extras_binary_start_step = keep_going
+         call binary_ptr(binary_id, b, ierr)
+         if (ierr /= 0) then ! failure in  binary_ptr
+            return
+         end if
+         if (b% point_mass_i == 0) then
+            b% limit_retention_by_mdot_edd = .false.
+         else
+            b% limit_retention_by_mdot_edd = .true.
+         end if
+      
+      end function  extras_binary_start_step
       
       !Return either rety,backup,keep_going or terminate
       integer function extras_binary_check_model(binary_id)
@@ -275,7 +294,7 @@
 
             if (safe_log10(abs(b% mdot_system_wind(1)+b% mdot_system_wind(2))/Msun*secyer) &
                > mdot_limit_high) then
-               extras_binary_finish_step = terminate
+               !extras_binary_finish_step = terminate
                write(*,*) "TERMINATING: mass loss above second limit"
             end if
 
@@ -345,24 +364,28 @@
 
          ! check for termination due to carbon depletion
          if (b% point_mass_i /= 2) then
-            turn_into_point_mass = .false.
-            if (b% s2% center_c12 < 5d-3 .and. b% s2% center_he4 < 1d-6) then
-               if (b% point_mass_i == 0) then
-                  write(*,*) "Secondary has depleted central carbon"
-                  turn_into_point_mass = .true.
-               else
-                  extras_binary_finish_step = terminate
-                  write(*,*) "Terminate due to secondary depleting carbon"
-               end if
+            if (b% s2% center_h1 < 5d-3) then
+               extras_binary_finish_step = terminate
+               write(*,*) "Terminate due to secondary depleting hydrogen"
             end if
-            if (turn_into_point_mass) then
-               call binary_set_point_mass_i(b% binary_id, 2, ierr)
-               b% eq_initial_bh_mass = b% m(2)
-               if (ierr /= 0) then
-                  return
-               end if
-               b% mdot_scheme = "roche_lobe"
-            end if
+            !turn_into_point_mass = .false.
+            !if (b% s2% center_c12 < 5d-3 .and. b% s2% center_he4 < 1d-6) then
+            !   if (b% point_mass_i == 0) then
+            !      write(*,*) "Secondary has depleted central carbon"
+            !      turn_into_point_mass = .true.
+            !   else
+            !      extras_binary_finish_step = terminate
+            !      write(*,*) "Terminate due to secondary depleting carbon"
+            !   end if
+            !end if
+            !if (turn_into_point_mass) then
+            !   call binary_set_point_mass_i(b% binary_id, 2, ierr)
+            !   b% eq_initial_bh_mass = b% m(2)
+            !   if (ierr /= 0) then
+            !      return
+            !   end if
+            !   b% mdot_scheme = "roche_lobe"
+            !end if
          end if
 
          ! check for L2 overflow after ZAMS

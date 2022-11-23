@@ -75,6 +75,11 @@
     ignore_species_in_max_correction = .true.
     max_resid_jump_limit = 1d99
     restore_mesh_on_retry = .true.
+    use_gold_tolerances = .true.
+    use_gold2_tolerances = .false.
+    gold_iter_for_resid_tol3 = 10
+    gold_tol_residual_norm3 = 1d-6
+    gold_tol_max_residual3 = 1d-3
 
     ! reduce superadiabaticity when near the Eddington limit to aid convergence
     use_superad_reduction = .true.
@@ -138,6 +143,9 @@
     dHe_div_He_limit = 2.0
     ! we're not looking for much precision at the very late stages
     dX_nuc_drop_limit = 5d-2
+    !limit movement in HR diagram
+    delta_HR_limit = 0.005d0
+    delta_HR_hard_limit = 0.01d0
 
     log_directory = 'LOGS2'
 
@@ -171,8 +179,8 @@
 
   ! premix omega to avoid doing the newton with crazily shearing material
     premix_omega = .true.
-    w_div_wcrit_max = 0.99d0
-    w_div_wcrit_max2 = 0.98d0
+    w_div_wcrit_max = 0.9d0
+    w_div_wcrit_max2 = 0.88d0
 
   ! wind options
     use_other_wind = .true.
@@ -215,5 +223,6 @@
 &pgstar
     read_extra_pgstar_inlist1 = .true.
     extra_pgstar_inlist1_name = 'inlist_pgstar'
+    Grid2_file_dir = 'png2'
       
 / ! end of pgstar namelist

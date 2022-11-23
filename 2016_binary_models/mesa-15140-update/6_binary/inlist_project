@@ -32,7 +32,7 @@
    fm_limit = 1d-1
    dt_softening_factor = 0.4
 
-   limit_retention_by_mdot_edd = .false.
+   !limit_retention_by_mdot_edd = .false. ! this is set in run_binary_extras depending if one of the components has been turned into a point mass
    implicit_scheme_tolerance = 1d-4
    max_tries_to_achieve = 200
    min_change_factor = 1.01d0
