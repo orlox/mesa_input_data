@@ -1,0 +1,64 @@
+
+&star_job
+
+    !file_for_uniform_xa = '../1_composition/xa_LMC.data'
+    file_for_uniform_xa = '../1_composition/xa_SMC.data'
+    !file_for_uniform_xa = '../1_composition/xa_GAL.data'
+    set_uniform_initial_xa_from_file = .true.
+
+    pre_ms_relax_to_start_radiative_core = .false.
+      
+/ ! end of star_job namelist
+
+&kap
+
+    !kap_file_prefix = "BROTT_LMC"
+    !kap_CO_prefix = "BROTT_LMC_co"
+    kap_file_prefix = "BROTT_SMC"
+    kap_CO_prefix = "BROTT_SMC_co"
+    !kap_file_prefix = "BROTT_GAL"
+    !kap_CO_prefix = "BROTT_GAL_co"
+
+    use_Type2_opacities = .true.
+    !Zbase = 4.8309709747724862d-3 ! LMC
+    Zbase = 2.1742893275569402d-3 ! SMC
+    !Zbase = 9.1876465183556837d-3 ! GAL
+
+    user_num_kap_CO_Xs = 5
+    user_kap_CO_Xs = 0.0d0, 0.03d0, 0.1d0, 0.35d0, 0.7d0
+    user_num_kap_CO_Zs = 8
+    user_kap_CO_Zs = 0.0d0, 0.001d0, 0.004d0, 0.01d0, 0.02d0, 0.03d0, 0.05d0, 0.1d0
+    user_num_kap_CO_Xs_for_this_Z = 5, 5, 5, 5, 5, 5, 5, 5
+
+    user_num_kap_Xs = 10
+    user_kap_Xs = 0.0d0, 0.1d0, 0.2d0, 0.35d0, 0.5d0, 0.7d0, 0.8d0, 0.9d0, 0.95d0, 1.0d0
+    user_num_kap_Zs = 12
+    user_kap_Zs = 0.0001d0, 0.0003d0, 0.001d0, 0.002d0, 0.004d0, 0.01d0, 0.02d0, 0.03d0, 0.04d0, 0.06d0, 0.08d0, 0.1d0
+    user_num_kap_Xs_for_this_Z = 10, 10, 10, 10, 10, 10, 10, 10, 10, 9, 9, 8
+/ ! end of kap namelist
+
+&controls
+
+    !initial_z = 4.8309709747724862d-3 ! LMC
+    initial_z = 2.1742893275569402d-3 ! SMC
+    !initial_z = 9.1876465183556837d-3 ! GAL
+
+    history_interval = 20
+    terminal_interval = 5
+
+    varcontrol_target = 2d-4
+
+    use_ledoux_criterion = .true.
+    alpha_semiconvection = 1.0
+    thermohaline_coeff = 1.0
+
+  ! we use step overshooting
+    overshoot_scheme(1) = 'step'
+    overshoot_zone_type(1) = 'burn_H'
+    overshoot_zone_loc(1) = 'core'
+    overshoot_bdy_loc(1) = 'top'
+    overshoot_f(1) = 0.345
+    overshoot_f0(1) = 0.01
+
+/ ! end of controls namelist
+

@@ -1,0 +1,6 @@
+&binary_controls
+m1 = 30.0d0
+m2 = 22.0d0
+initial_period_in_days = 6d0
+/ ! end of binary_controls namelist
+
