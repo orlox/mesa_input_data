@@ -51,6 +51,7 @@
     use_ledoux_criterion = .true.
     alpha_semiconvection = 1.0
     thermohaline_coeff = 1.0
+    use_superad_reduction = .true.
 
   ! we use step overshooting
     overshoot_scheme(1) = 'step'

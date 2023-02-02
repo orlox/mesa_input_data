@@ -467,6 +467,11 @@
             s% xtra(x_time_thermal_eq) = 0d0
          end if
 
+         if (s% center_c12 < 5d-3 .and. s% center_he4 < 1d-6) then
+            extras_finish_step = terminate
+            write(*,*) "Terminate due to carbon depletion"
+        end if
+
          ! see extras_check_model for information about custom termination codes
          ! by default, indicate where (in the code) MESA terminated
          if (extras_finish_step == terminate) s% termination_code = t_extras_finish_step
