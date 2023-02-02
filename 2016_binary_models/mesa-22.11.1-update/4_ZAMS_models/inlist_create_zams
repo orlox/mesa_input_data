@@ -1,8 +1,8 @@
 
 &star_job
 
-    !file_for_uniform_xa = '../1_composition/xa_LMC.data'
-    file_for_uniform_xa = '../1_composition/xa_SMC.data'
+    file_for_uniform_xa = '../1_composition/xa_LMC.data'
+    !file_for_uniform_xa = '../1_composition/xa_SMC.data'
     !file_for_uniform_xa = '../1_composition/xa_GAL.data'
     set_uniform_initial_xa_from_file = .true.
 
@@ -12,16 +12,16 @@
 
 &kap
 
-    !kap_file_prefix = "BROTT_LMC"
-    !kap_CO_prefix = "BROTT_LMC_co"
-    kap_file_prefix = "BROTT_SMC"
-    kap_CO_prefix = "BROTT_SMC_co"
+    kap_file_prefix = "BROTT_LMC"
+    kap_CO_prefix = "BROTT_LMC_co"
+    !kap_file_prefix = "BROTT_SMC"
+    !kap_CO_prefix = "BROTT_SMC_co"
     !kap_file_prefix = "BROTT_GAL"
     !kap_CO_prefix = "BROTT_GAL_co"
 
     use_Type2_opacities = .true.
-    !Zbase = 4.8309709747724862d-3 ! LMC
-    Zbase = 2.1742893275569402d-3 ! SMC
+    Zbase = 4.8309709747724862d-3 ! LMC
+    !Zbase = 2.1742893275569402d-3 ! SMC
     !Zbase = 9.1876465183556837d-3 ! GAL
 
     user_num_kap_CO_Xs = 5
@@ -39,8 +39,8 @@
 
 &controls
 
-    !initial_z = 4.8309709747724862d-3 ! LMC
-    initial_z = 2.1742893275569402d-3 ! SMC
+    initial_z = 4.8309709747724862d-3 ! LMC
+    !initial_z = 2.1742893275569402d-3 ! SMC
     !initial_z = 9.1876465183556837d-3 ! GAL
 
     history_interval = 20
