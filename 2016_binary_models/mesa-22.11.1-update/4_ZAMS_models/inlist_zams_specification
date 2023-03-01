@@ -2,17 +2,17 @@
 
 &create_zams_job
 
-   create_z = 4.8309709747724862d-3
-   create_y = 0.25687882128019224d0
-   zams_name = 'BROTT_LMC'
+   !create_z = 4.8309709747724862d-3
+   !create_y = 0.25687882128019224d0
+   !zams_name = 'BROTT_LMC'
 
    !create_z = 2.1742893275569402d-3
    !create_y = 0.25183112589712175d0
    !zams_name = 'BROTT_SMC'
 
-   !create_z = 9.1876465183556837d-3
-   !create_y = 0.26515650522848522d0
-   !zams_name = 'BROTT_GAL'
+   create_z = 9.1876465183556837d-3
+   create_y = 0.26515650522848522d0
+   zams_name = 'BROTT_GAL'
    
    ! do masses 10**lgm, for lgm = mlo to mhi by dmass
    mlo = 0
