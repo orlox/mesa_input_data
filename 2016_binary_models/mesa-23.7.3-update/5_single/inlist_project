@@ -6,8 +6,8 @@
 
 &star_job
     ! initial rotation defined separetely
-    read_extra_star_job_inlist1 = .true.
-    extra_star_job_inlist1_name = 'inlist_extra'
+    read_extra_star_job_inlist(1) = .true.
+    extra_star_job_inlist_name(1) = 'inlist_extra'
 
   ! display on-screen plots
     pgstar_flag = .true.
@@ -43,10 +43,19 @@
   ! kap options
   ! see kap/defaults/kap.defaults
   use_Type2_opacities = .true.
-  Zbase = 4.8309709747724862d-3
+
+  Zbase = 4.8309709747724862d-3 ! LMC
+  !Zbase = 2.1742893275569402d-3 ! SMC
+  !Zbase = 9.1876465183556837d-3 ! GAL
 
   kap_file_prefix = "BROTT_LMC"
   kap_CO_prefix = "BROTT_LMC_co"
+  !kap_file_prefix = "BROTT_SMC"
+  !kap_CO_prefix = "BROTT_SMC_co"
+  !kap_file_prefix = "BROTT_GAL"
+  !kap_CO_prefix = "BROTT_GAL_co"
+
+
   user_num_kap_CO_Xs = 5
   user_kap_CO_Xs = 0.0d0, 0.03d0, 0.1d0, 0.35d0, 0.7d0
   user_num_kap_CO_Zs = 8
@@ -65,8 +74,8 @@
 &controls
 
     ! initial mass defined separetely
-    read_extra_controls_inlist1 = .true.
-    extra_controls_inlist1_name = 'inlist_extra'
+    read_extra_controls_inlist(1) = .true.
+    extra_controls_inlist_name(1) = 'inlist_extra'
 
     timestep_factor_for_retries = 0.8
     min_timestep_factor = 0.9
@@ -92,7 +101,6 @@
     max_logT_for_k_const_mass = 100
     max_q_for_k_const_mass = 0.99
     min_q_for_k_const_mass = 0.99
-    fix_eps_grav_transition_to_grid = .true.
 
     !extra spatial resolution
     mesh_delta_coeff = 0.8
@@ -102,8 +110,18 @@
     max_allowed_nz = 15000
 
 
+    ! LMC
     initial_z = 4.8309709747724862d-3
+    initial_y = 0.25687885050661802d0
     zams_filename = 'BROTT_LMC.data'
+    !! SMC
+    !initial_z = 2.1742893275569402d-3
+    !initial_y = 0.25183115544024870d0
+    !zams_filename = 'BROTT_SMC.data'
+    !! GAL
+    !initial_z = 9.1876465183556837d-3
+    !initial_y = 0.26515653393555483d0
+    !zams_filename = 'BROTT_GAL.data'
 
     max_model_number = 10000
     max_number_retries = 500
@@ -137,7 +155,7 @@
     ! this is mainly to resolve properly when the star goes off the main sequence
     delta_HR_limit = 0.005d0
     ! relax default dHe/He, otherwise growing He core can cause things to go at a snail pace
-    dHe_div_He_limit = 2.0
+    dX_div_X_limit(2) = 2.0
     ! we're not looking for much precision at the very late stages
     dX_nuc_drop_limit = 5d-2
 
