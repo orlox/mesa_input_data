@@ -1,0 +1,61 @@
+&binary_job
+
+   inlist_names(1) = 'inlist1' 
+   inlist_names(2) = 'inlist2'
+
+   evolve_both_stars = .true.
+   ! rlof is turned on once star definitely settles into ZAMS
+   change_initial_ignore_rlof_flag = .true.
+   new_ignore_rlof_flag = .true.
+
+/ ! end of binary_job namelist
+
+&binary_controls
+   photo_interval = 50
+   do_tidal_sync = .true.
+   do_j_accretion = .true.
+   ! be 100% sure MB is always off
+   do_jdot_mb = .false.
+   do_jdot_missing_wind = .true.
+
+   mdot_scheme = "contact"
+
+   ! initial conditions specified in extra inlist
+   read_extra_binary_controls_inlist1 = .true.
+   extra_binary_controls_inlist1_name = "inlist_extra"
+
+   ! timestep controls
+   fr = 0.01
+   fr_limit = 2.5d-2
+   fr_dt_limit = 500
+   fm = 1d0
+   fm_limit = 1d-1
+   dt_softening_factor = 0.4
+
+   !limit_retention_by_mdot_edd = .false. ! this is set in run_binary_extras depending if one of the components has been turned into a point mass
+   implicit_scheme_tolerance = 1d-4
+   max_tries_to_achieve = 200
+   min_change_factor = 1.01d0
+   max_change_factor = 1.2d0
+   initial_change_factor = 1.2d0
+   change_factor_fraction = 0.8d0
+   implicit_lambda = 0.4d0
+
+   sync_mode_1 = "Uniform"
+   sync_type_1 = "Hut_rad"
+   Ftid_1 = 1
+   sync_mode_2 = "Uniform"
+   sync_type_2 = "Hut_rad"
+   Ftid_2 = 1
+   do_initial_orbit_sync_1 = .true.
+   do_initial_orbit_sync_2 = .true.
+   !use_other_tsync = .true.
+
+   min_mdot_for_implicit = 1d-9
+   roche_min_mdot = 1d-10
+   accretor_overflow_terminate = 100.0d0
+   ! assume merger if mass transfer rate becomes too high
+   max_implicit_abs_mdot = 0.1
+         
+/ ! end of binary_controls namelist
+
