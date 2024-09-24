@@ -1,0 +1,233 @@
+! inlist to evolve a 15 solar mass star
+
+! For the sake of future readers of this file (yourself included),
+! ONLY include the controls you are actually using.  DO NOT include
+! all of the other controls that simply have their default values.
+
+&star_job
+    ! initial rotation defined separetely
+    read_extra_star_job_inlist(1) = .true.
+    extra_star_job_inlist_name(1) = 'inlist_extra'
+
+  ! display on-screen plots
+    pgstar_flag = .true.
+
+    show_log_description_at_start = .false.
+
+    new_rotation_flag = .true.
+    change_rotation_flag = .true.
+    relax_initial_omega_div_omega_crit = .true.
+    ! this is just a random number, tidal sync takes care of it
+    use_w_div_wc_flag_with_rotation = .true.
+
+    ! Used to fix composition at the start, but this can make a mess from stron CN burning at the start
+    ! better to just rely on ZAMS model
+    !file_for_uniform_xa = "xa_LMC.data"
+    !set_uniform_initial_xa_from_file = .true.
+
+    save_model_when_terminate = .true.
+    save_model_filename = "model.dat"
+
+    h_he_net = 'basic2.net'
+    co_net = 'co_burn2.net'
+
+/ ! end of star_job namelist
+
+
+&eos
+
+/ ! end of eos namelist
+
+
+&kap
+  ! kap options
+  ! see kap/defaults/kap.defaults
+  use_Type2_opacities = .true.
+
+  Zbase = 4.8309709747724862d-3 ! LMC
+  !Zbase = 2.1742893275569402d-3 ! SMC
+  !Zbase = 9.1876465183556837d-3 ! GAL
+
+  kap_file_prefix = "BROTT_LMC"
+  kap_CO_prefix = "BROTT_LMC_co"
+  !kap_file_prefix = "BROTT_SMC"
+  !kap_CO_prefix = "BROTT_SMC_co"
+  !kap_file_prefix = "BROTT_GAL"
+  !kap_CO_prefix = "BROTT_GAL_co"
+
+
+  user_num_kap_CO_Xs = 5
+  user_kap_CO_Xs = 0.0d0, 0.03d0, 0.1d0, 0.35d0, 0.7d0
+  user_num_kap_CO_Zs = 8
+  user_kap_CO_Zs = 0.0d0, 0.001d0, 0.004d0, 0.01d0, 0.02d0, 0.03d0, 0.05d0, 0.1d0
+  user_num_kap_CO_Xs_for_this_Z = 5, 5, 5, 5, 5, 5, 5, 5
+
+  user_num_kap_Xs = 10
+  user_kap_Xs = 0.0d0, 0.1d0, 0.2d0, 0.35d0, 0.5d0, 0.7d0, 0.8d0, 0.9d0, 0.95d0, 1.0d0
+  user_num_kap_Zs = 12
+  user_kap_Zs = 0.0001d0, 0.0003d0, 0.001d0, 0.002d0, 0.004d0, 0.01d0, 0.02d0, 0.03d0, 0.04d0, 0.06d0, 0.08d0, 0.1d0
+  user_num_kap_Xs_for_this_Z = 10, 10, 10, 10, 10, 10, 10, 10, 10, 9, 9, 8
+
+/ ! end of kap namelist
+
+
+&controls
+
+    ! initial mass defined separetely
+    read_extra_controls_inlist(1) = .true.
+    extra_controls_inlist_name(1) = 'inlist_extra'
+
+    timestep_factor_for_retries = 0.8
+    min_timestep_factor = 0.9
+    max_timestep_factor = 1.05d0
+    retry_hold = 5
+    redo_limit = -1
+    relax_hard_limits_after_retry = .false.
+    min_timestep_limit = 3.154
+
+    report_solver_progress = .true.
+    solver_iters_timestep_limit = 7
+    scale_max_correction = 0.1d0
+    ignore_min_corr_coeff_for_scale_max_correction = .true.
+    ignore_species_in_max_correction = .true.
+    max_resid_jump_limit = 1d99
+    restore_mesh_on_retry = .true.
+
+    ! Fixing the position of the Lagrangian region of the mesh helps
+    ! convergence near the Eddington limit
+    max_logT_for_k_below_const_q = 100
+    max_q_for_k_below_const_q = 0.995
+    min_q_for_k_below_const_q = 0.995
+    max_logT_for_k_const_mass = 100
+    max_q_for_k_const_mass = 0.99
+    min_q_for_k_const_mass = 0.99
+
+    !extra spatial resolution
+    mesh_delta_coeff = 0.8
+    mesh_Pgas_div_P_exponent = 0.5
+    max_dq = 0.001
+    min_dq_for_xa = 1d-5
+    max_allowed_nz = 15000
+
+
+    ! LMC
+    initial_z = 4.8309709747724862d-3
+    initial_y = 0.25687885050661802d0
+    zams_filename = 'BROTT_LMC.data'
+    !! SMC
+    !initial_z = 2.1742893275569402d-3
+    !initial_y = 0.25183115544024870d0
+    !zams_filename = 'BROTT_SMC.data'
+    !! GAL
+    !initial_z = 9.1876465183556837d-3
+    !initial_y = 0.26515653393555483d0
+    !zams_filename = 'BROTT_GAL.data'
+
+    max_model_number = 10000
+    max_number_retries = 500
+
+    ! extra controls for timestep
+    ! these are for changes in mdot at the onset of mass transfer
+    delta_lg_star_mass_limit = 2d-3
+    delta_lg_star_mass_hard_limit = 2d-3
+    ! these are to properly resolve core hydrogen depletion
+    delta_lg_XH_cntr_limit = 0.02d0
+    delta_lg_XH_cntr_max = 0.0d0
+    delta_lg_XH_cntr_min = -6.0d0
+    delta_lg_XH_cntr_hard_limit = 0.03d0
+    ! these are to properly resolve core helium depletion
+    delta_lg_XHe_cntr_limit = 0.02d0
+    delta_lg_XHe_cntr_max = 0.0d0
+    delta_lg_XHe_cntr_min = -6.0d0
+    delta_lg_XHe_cntr_hard_limit = 0.03d0
+    ! these are to properly resolve core carbon depletion
+    delta_lg_XC_cntr_limit = 0.01d0
+    delta_lg_XC_cntr_max = 0.0d0
+    delta_lg_XC_cntr_min = -5.0d0
+    delta_lg_XC_cntr_hard_limit = 0.02d0
+    ! controls for absolute changes in composition
+    delta_XH_cntr_limit = 0.001d0
+    delta_XHe_cntr_limit = 0.001d0
+    delta_XC_cntr_limit = 0.001d0
+    delta_XH_cntr_hard_limit = 0.003d0
+    delta_XHe_cntr_hard_limit = 0.003d0
+    delta_XC_cntr_hard_limit = 0.003d0
+    ! this is mainly to resolve properly when the star goes off the main sequence
+    delta_HR_limit = 0.005d0
+    ! relax default dHe/He, otherwise growing He core can cause things to go at a snail pace
+    dX_div_X_limit(2) = 2.0
+    ! we're not looking for much precision at the very late stages
+    dX_nuc_drop_limit = 5d-2
+
+    log_directory = 'LOGS'
+
+    profile_interval = 50
+    history_interval = 1
+    terminal_interval = 1
+    write_header_frequency = 10
+    max_num_profile_models = 10000
+
+    use_ledoux_criterion = .true.
+    mixing_length_alpha = 1.5
+    alpha_semiconvection = 1d0
+    thermohaline_coeff = 1d0
+    remove_small_D_limit = 1d-50
+    mixing_D_limit_for_log = 1d-50
+    use_superad_reduction = .true.
+
+  ! rotational mixing coeffs
+    am_nu_ST_factor = 1.0
+    D_visc_factor = 0.0
+    am_nu_SH_factor = 0.0
+    D_ST_factor = 0.0
+    D_SH_factor = 0.0
+    D_GSF_factor = 1.0
+    D_ES_factor = 1.0
+    D_SSI_factor = 1.0
+    D_DSI_factor = 1.0
+    am_D_mix_factor = 0.0333d0
+    am_gradmu_factor = 0.1d0
+    num_cells_for_smooth_gradL_composition_term = 5
+
+  ! premix omega to avoid doing the newton with crazily shearing material
+    premix_omega = .true.
+    w_div_wcrit_max = 0.99d0
+    w_div_wcrit_max2 = 0.98d0
+
+  ! wind options
+    use_other_wind = .true.
+
+  ! controls for implicit wind
+    surf_avg_tau_min = 0
+    surf_avg_tau = 10
+    max_mdot_redo_cnt = 200
+    min_years_dt_for_redo_mdot = 0
+    surf_omega_div_omega_crit_limit = 0.99d0
+    surf_omega_div_omega_crit_tol = 0.06d0
+    rotational_mdot_boost_fac = 1d10
+    rotational_mdot_kh_fac = 1d10
+    mdot_revise_factor = 1.2
+    implicit_mdot_boost = 0.1
+    
+  ! we use step overshooting
+    overshoot_scheme(1) = 'step'
+    overshoot_zone_type(1) = 'burn_H'
+    overshoot_zone_loc(1) = 'core'
+    overshoot_bdy_loc(1) = 'top'
+    overshoot_f(1) = 0.345
+    overshoot_f0(1) = 0.01
+  ! a small amount of overshooting on top of any convective layer helps
+  ! avoid spurious numerical behavior
+    overshoot_scheme(2) = 'exponential'
+    overshoot_zone_type(2) = 'any'
+    overshoot_zone_loc(2) = 'any'
+    overshoot_bdy_loc(2) = 'top'
+    overshoot_f(2) = 0.01
+    overshoot_f0(2) = 0.005
+
+    calculate_Brunt_N2 = .true.
+
+  ! this is to avoid odd behaviour when a star switches from accreting to mass losing
+    max_mdot_jump_for_rotation = 1d99 
+
+/ ! end of controls namelist
