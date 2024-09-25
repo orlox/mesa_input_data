@@ -270,9 +270,12 @@
          integer, intent(in) :: id
          integer :: ierr
          type (star_info), pointer :: s
-         real(dp) :: omega_crit
+         type (binary_info), pointer :: b
+         real(dp) :: omega_orb
          ierr = 0
          call star_ptr(id, s, ierr)
+         if (ierr /= 0) return
+         call binary_ptr(s% binary_id, b, ierr)
          if (ierr /= 0) return
          extras_start_step = 0
 
@@ -288,14 +291,10 @@
                write(*,*) "Switching to normal evolution"
                s% lxtra(lx_pre_ZAMS) = .false.
             else
-               ! keep rotation fixed
-               write(*,*) "Not at ZAMS yet, keeping omega_div_omega_crit fixed"
-               omega_crit = star_surface_omega_crit(id,ierr)
-               if (ierr /= 0) then
-                  write(*,*) "Error in star_surface_omega_crit"
-                  return
-               end if
-               call star_set_uniform_omega(s% id, omega_crit*s% job% new_omega_div_omega_crit, ierr)
+               ! keep rotation fixed to orbital period
+               write(*,*) "Not at ZAMS yet, keeping omega fixed to omega_orb"
+               omega_orb = 2*pi/b% period
+               call star_set_uniform_omega(s% id, omega_orb, ierr)
                if (ierr /= 0) then
                   write(*,*) "Error in star_set_uniform_omega"
                   return

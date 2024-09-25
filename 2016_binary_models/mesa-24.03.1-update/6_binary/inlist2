@@ -68,10 +68,6 @@
     relax_hard_limits_after_retry = .false.
     min_timestep_limit = 3.154
 
-    initial_z = 4.8309709747724862d-3
-    initial_y = 2.5687882128019202d-01
-    zams_filename = 'BROTT_LMC.data'
-
     report_solver_progress = .true.
     solver_iters_timestep_limit = 7
     scale_max_correction = 0.1d0
@@ -96,7 +92,6 @@
     max_logT_for_k_const_mass = 100
     max_q_for_k_const_mass = 0.99
     min_q_for_k_const_mass = 0.99
-    ! fix_eps_grav_transition_to_grid = .true.
 
     !extra spatial resolution
     mesh_delta_coeff = 0.8
@@ -110,6 +105,7 @@
     smooth_outer_xa_small = 0.03
 
     initial_z = 4.8309709747724862d-3
+    initial_y = 2.5687882128019202d-01
     zams_filename = 'BROTT_LMC.data'
 
     max_model_number = 10000
