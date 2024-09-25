@@ -22,7 +22,7 @@
     !set_uniform_initial_xa_from_file = .true.
 
     save_model_when_terminate = .true.
-    save_model_filename = "model1.dat"
+    save_model_filename = "model2.dat"
 
     h_he_net = 'basic2.net'
     co_net = 'co_burn2.net'
@@ -100,6 +100,10 @@
     min_dq_for_xa = 1d-5
     max_allowed_nz = 15000
 
+    !smooth outer composition to help convergence while accreting helium rich material
+    smooth_outer_xa_big = 0.05
+    smooth_outer_xa_small = 0.03
+
     initial_z = 4.8309709747724862d-3
     initial_y = 2.5687882128019202d-01
     zams_filename = 'BROTT_LMC.data'
@@ -136,6 +140,7 @@
     ! this is mainly to resolve properly when the star goes off the main sequence
     delta_HR_limit = 0.005d0
     ! relax default dHe/He, otherwise growing He core can cause things to go at a snail pace
+    ! relax default dHe/He, otherwise growing He core can cause things to go at a snail pace
     dX_limit_species(1) = 'he4'
     dX_div_X_limit(1) = 2d0
     dX_div_X_limit_min_X(1) = 1d-1
@@ -145,9 +150,7 @@
     delta_HR_limit = 0.005d0
     delta_HR_hard_limit = 0.01d0
 
-    
-
-    log_directory = 'LOGS1'
+    log_directory = 'LOGS2'
 
     profile_interval = 50
     history_interval = 1
@@ -221,8 +224,8 @@
 / ! end of controls namelist
 
 &pgstar
-    read_extra_pgstar_inlist1 = .true.
-    extra_pgstar_inlist1_name = 'inlist_pgstar'
-    Grid2_file_dir = 'png1'
+    read_extra_pgstar_inlist(1) = .true.
+    extra_pgstar_inlist_name(1) = 'inlist_pgstar'
+    Grid2_file_dir = 'png2'
       
 / ! end of pgstar namelist
