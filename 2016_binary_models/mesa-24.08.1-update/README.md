@@ -1,7 +1,7 @@
 # 2016 binary models
 
-**MESA version: 24.03.1**
-This is an update to the files to run them on version 24.03.1.
+**MESA version: 24.08.1**
+This is an update to the files to run them on version 24.08.1.
 The section on opacity tables and nets (2 and 3) are unchanged, for those the files
 on the upper directory should be used.
 
@@ -135,7 +135,7 @@ $MESA_DIR is the mesa directory to use, then the nets and ZAMS models can be eas
 using
 ```
 cp $MESA_INPUT/3_nets/*.net $MESA_DIR/data/net_data/nets/
-cp $MESA_INPUT/mesa-24.03.1-update/4_ZAMS_models/*.data $MESA_DIR/data/star_data/zams_models
+cp $MESA_INPUT/mesa-24.08.1-update/4_ZAMS_models/*.data $MESA_DIR/data/star_data/zams_models
 ```
 To include the opacity tables requires a bit more work, as these need to through the MESA
 preprocessor first. This only parses the LMC opacity tables, if you want the LMC and GAL ones
@@ -152,7 +152,7 @@ cp $MESA_INPUT/2_opacity_tables/rebuild_all .
 cd ..
 ./build_data_and_export
 ```
-and now all neccesary data should be included into MESA. Note that we rewrite the rebuild_all script,
+and now all necessary data should be included into MESA. Note that we rewrite the rebuild_all script,
 in case you have other custom opacities included into MESA, or have troubles getting this to work
 in newer MESA versions, you might want to manually include the neccesary entries into rebuild_all.
 
